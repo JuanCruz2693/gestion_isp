@@ -11,8 +11,12 @@
             <option value="{{ option.0 }}">{{ option.1 }}</option>
             {% endfor %}
         </select>
+        {% elif campo.field.widget.input_type == 'date' %} <!-- Agregado: Verificar si es un campo de fecha -->
+        <input type="date" class="form-control" id="{{ campo.field.id_for_label }}" name="{{ campo.name }}"
+            value="{{ campo.value }}">
         {% else %}
-        <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.field.id_for_label }}" name="{{ campo.name }}">
+        <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.field.id_for_label }}"
+            name="{{ campo.name }}">
         {% endif %}
     </div>
     {% endfor %}

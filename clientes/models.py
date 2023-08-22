@@ -1,4 +1,5 @@
 from django.db import models
+import datetime
 
 
 # Create your models here.
@@ -40,6 +41,7 @@ class Cliente(models.Model):
     telefono = models.CharField(max_length=15)
     estado = models.CharField(max_length=1, default="A")
     observaciones = models.TextField()
+    fecha_alta = models.DateField(default= datetime.date.today )
     idServicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, verbose_name='Servicio')
     zona = models.ForeignKey(Zona, on_delete=models.CASCADE)
 

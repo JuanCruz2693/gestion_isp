@@ -10,6 +10,35 @@ $("#btnNuevo").click(function () {
     $("#modalCRUD").modal("show");
 });
 
+let idCliente = null;
+//botón INFO  
+$(document).on("click", ".btnInfo", function () {
+    var fila = $(this).closest("tr");
+    idCliente = fila.find('td:eq(0)').text(); // Obtener el ID del cliente
+
+    fetch('http://127.0.0.1:8000/cargar_clientes/')
+        .then(response => response.json())
+        .then(data => {
+            var cliente = data.clientes.find(c => c.id === parseInt(idCliente)); // Buscar el cliente por su ID
+            // Actualizar los elementos del modal con los datos del cliente
+            $("#id-i").text(idCliente);
+            $("#dni-i").text(cliente.dni);
+            $("#nombre-i").text(cliente.nombre);
+            $("#apellido-i").text(cliente.apellido);
+            $("#direccion-i").text(cliente.direccion);
+            $("#telefono-i").text(cliente.telefono);
+            $("#estado-i").text(cliente.estado);
+            $("#observaciones-i").text(cliente.observaciones);
+            $("#fechaAlta-i").text(cliente.fecha_alta);
+            $("#servicio-i").text(cliente.idServicio__tipo_plan);
+            $("#zona-i").text(cliente.zona__nombre);
+            $("#modal-info").modal("show");
+        })
+        .catch(error => console.error(error));
+});
+
+
+
 //boton editar
 $(document).on("click", "#btnEditar", function () {
     // Obtener los valores del modal de información del cliente

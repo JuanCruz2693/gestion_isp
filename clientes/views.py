@@ -8,7 +8,7 @@ def home(request):
     return render(request,'home.html')
 
 def cargar_clientes(request):
-    clientes= list(Cliente.objects.values())
+    clientes= list(Cliente.objects.select_related('zona', 'idServicio').values('id','dni', 'apellido', 'nombre', 'direccion', 'telefono', 'estado', 'observaciones', 'fecha_alta', 'idServicio__tipo_plan', 'zona__nombre'))
     data={'clientes': clientes}
     return JsonResponse(data)
 
@@ -22,3 +22,4 @@ def form_clientes(request):
         return redirect('clientes')
     contexto= {'formulario': formulario, 'servicios': servicios, 'zonas': zonas}
     return render(request, 'Clientes.html', contexto)
+
