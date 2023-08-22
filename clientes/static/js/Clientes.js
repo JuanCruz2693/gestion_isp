@@ -47,7 +47,9 @@ $(document).on("click", "#btnEditar", function () {
     var apellido = $("#apellido-i").text().trim();
     var direccion = $("#direccion-i").text().trim();
     var telefono = $("#telefono-i").text().trim();
+    var estado = $("#estado-i").text().trim();
     var observaciones = $("#observaciones-i").text().trim();
+    var fecha_alta = $('#fechaAlta-i').text().trim();
     var servicio = $("#servicio-i").text().trim();
     var zona = $("#zona-i").text().trim();
 
@@ -55,11 +57,16 @@ $(document).on("click", "#btnEditar", function () {
     $("#dni").val(dni);
     $("#nombre").val(nombre);
     $("#apellido").val(apellido);
-    $("#domicilio").val(direccion);
+    $("#direccion").val(direccion);
     $("#telefono").val(telefono);
+    $("#estado").val(estado);
     $("#observaciones").val(observaciones);
-    $("#servicio").val(servicio);
-    $("#zona").val(zona);
+    // Llenar campo de fecha
+    $('#fecha_alta').val(fecha_alta);
+
+    // Llenar campos de selección basados en valores
+    $("#idServicio option:contains('" + servicio + "')").prop("selected", true);
+    $("#zona option:contains('" + zona + "')").prop("selected", true);
 
     $(".modal-title").text("Editar Cliente");
     $("#btnSubmit").text("Guardar");
@@ -80,7 +87,7 @@ const initDataTable = async () => {
     await clientes();
 
     // Inicializar el DataTable en el elemento #tablaClientes
-    dataTable = $('#Clientes').DataTable({ 
+    dataTable = $('#Clientes').DataTable({
         scrollX: true,
         // botones editar y eliminar en la tabla
         "columnDefs": [{
@@ -104,7 +111,8 @@ const initDataTable = async () => {
                 "sPrevious": "Anterior"
             },
             "sProcessing": "Procesando...",
-        }});
+        }
+    });
 
     // Marcar el DataTable como inicializado
     dataTableInicializada = true;

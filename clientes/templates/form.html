@@ -2,21 +2,21 @@
     {% csrf_token %}
     {% for campo in formulario %}
     <div class="mb-3">
-        <label for="{{ campo.field.id_for_label }}" class="form-label">{{ campo.label }}</label>
+        <label for="{{ campo.name }}" class="form-label">{{ campo.label }}</label>
 
         {% if campo.field.widget.input_type == 'select' %}
-        <select class="form-select" id="{{ campo.field.id_for_label }}" name="{{ campo.name }}">
+        <select class="form-select" id="{{ campo.name }}" name="{{ campo.name }}">
             <option value="">Seleccionar</option>
             {% for option in campo.field.choices %}
             <option value="{{ option.0 }}">{{ option.1 }}</option>
             {% endfor %}
         </select>
         {% elif campo.field.widget.input_type == 'date' %} <!-- Agregado: Verificar si es un campo de fecha -->
-        <input type="date" class="form-control" id="{{ campo.field.id_for_label }}" name="{{ campo.name }}"
-            value="{{ campo.value }}">
+        <input type="date" class="form-control" id="{{ campo.name }}" name="{{ campo.name }}"
+            value="{{ cliente.fecha_alta|date:'Y-m-d' }}">
         {% else %}
-        <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.field.id_for_label }}"
-            name="{{ campo.name }}">
+        <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.name }}"
+            name="{{ campo.name }}" value="{{ cliente.some_field }}">
         {% endif %}
     </div>
     {% endfor %}

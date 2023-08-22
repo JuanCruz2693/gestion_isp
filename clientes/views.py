@@ -5,7 +5,8 @@ from django.http.response import JsonResponse
 
 # Create your views here.
 def home(request):
-    return render(request,'home.html')
+    clientes = Cliente.objects.count()
+    return render(request,'home.html',{'clientes': clientes})
 
 def cargar_clientes(request):
     clientes= list(Cliente.objects.select_related('zona', 'idServicio').values('id','dni', 'apellido', 'nombre', 'direccion', 'telefono', 'estado', 'observaciones', 'fecha_alta', 'idServicio__tipo_plan', 'zona__nombre'))
