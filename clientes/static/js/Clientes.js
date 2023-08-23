@@ -32,6 +32,7 @@ $(document).on("click", ".btnInfo", function () {
             $("#fechaAlta-i").text(cliente.fecha_alta);
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
             $("#zona-i").text(cliente.zona__nombre);
+            $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");
         })
         .catch(error => console.error(error));
@@ -42,6 +43,7 @@ $(document).on("click", ".btnInfo", function () {
 //boton editar
 $(document).on("click", "#btnEditar", function () {
     // Obtener los valores del modal de información del cliente
+    var id = $("#id-i").text().trim();
     var dni = $("#dni-i").text().trim();
     var nombre = $("#nombre-i").text().trim();
     var apellido = $("#apellido-i").text().trim();
@@ -54,24 +56,21 @@ $(document).on("click", "#btnEditar", function () {
     var zona = $("#zona-i").text().trim();
 
     // Llenar el modal de edición con los valores obtenidos
-    $("#dni").val(dni);
-    $("#nombre").val(nombre);
-    $("#apellido").val(apellido);
-    $("#direccion").val(direccion);
-    $("#telefono").val(telefono);
-    $("#estado").val(estado);
-    $("#observaciones").val(observaciones);
-    // Llenar campo de fecha
-    $('#fecha_alta').val(fecha_alta);
-
-    // Llenar campos de selección basados en valores
-    $("#idServicio option:contains('" + servicio + "')").prop("selected", true);
-    $("#zona option:contains('" + zona + "')").prop("selected", true);
-
-    $(".modal-title").text("Editar Cliente");
+    $("#formEdicion #form-edicion-id").val(id)
+    $("#formEdicion #dni").val(dni);
+    $("#formEdicion #nombre").val(nombre);
+    $("#formEdicion #apellido").val(apellido);
+    $("#formEdicion #direccion").val(direccion);
+    $("#formEdicion #telefono").val(telefono);
+    $("#formEdicion #estado").val(estado);
+    $("#formEdicion #observaciones").val(observaciones);
+    $('#formEdicion #fecha_alta').val(fecha_alta);
+    $("#formEdicion #idServicio option:contains('" + servicio + "')").prop("selected", true);
+    $("#formEdicion #zona option:contains('" + zona + "')").prop("selected", true);
+    $("#titulo-edicion").text("Editar Cliente");
     $("#btnSubmit").text("Guardar");
-    $("#formClientes").attr("data-action", "editar");
-    $("#modalCRUD").modal("show");
+    $("#formEdicion").attr("action", "http://127.0.0.1:8000/editar/");
+    $("#modal-edicion-crud").modal("show");
 });
 
 let dataTable;

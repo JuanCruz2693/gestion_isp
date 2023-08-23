@@ -1,5 +1,6 @@
 <form method="post">
     {% csrf_token %}
+    <input type="hidden" id="form-edicion-id" name="form-edicion-id" value="">
     {% for campo in formulario %}
     <div class="mb-3">
         <label for="{{ campo.name }}" class="form-label">{{ campo.label }}</label>
