@@ -31,6 +31,7 @@ $(document).on("click", ".btnInfo", function () {
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
+            $("#monto-i").text("$"+cliente.idServicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");

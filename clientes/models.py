@@ -34,7 +34,7 @@ class Dueda(models.Model):
 
 
 class Cliente(models.Model):
-    dni = models.CharField(max_length=10)
+    dni = models.CharField(max_length=10,unique=True)
     apellido = models.CharField(max_length=100)
     nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=200)

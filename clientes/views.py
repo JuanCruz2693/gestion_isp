@@ -23,6 +23,7 @@ def cargar_clientes(request):
             "observaciones",
             "fecha_alta",
             "idServicio__tipo_plan",
+            "idServicio__monto",
             "zona__nombre",
         )
     )
