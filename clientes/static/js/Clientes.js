@@ -31,15 +31,21 @@ $(document).on("click", ".btnInfo", function () {
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
-            $("#monto-i").text("$"+cliente.idServicio__monto);
+            $("#monto-i").text("$" + cliente.idServicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
+
+            if(cliente.estado == 'B'){
+                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta")
+                $("#btnBaja").attr("id", "btnAlta");
+            }else{
+                $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja")
+                $("#btnAlta").attr("id", "btnBaja");
+            }
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");
         })
         .catch(error => console.error(error));
 });
-
-
 
 //boton editar
 $(document).on("click", "#btnEditar", function () {
@@ -68,11 +74,57 @@ $(document).on("click", "#btnEditar", function () {
     $('#formEdicion #fecha_alta').val(fecha_alta);
     $("#formEdicion #idServicio option:contains('" + servicio + "')").prop("selected", true);
     $("#formEdicion #zona option:contains('" + zona + "')").prop("selected", true);
+
     $("#titulo-edicion").text("Editar Cliente");
     $("#btnSubmit").text("Guardar");
     $("#formEdicion").attr("action", "http://127.0.0.1:8000/editar/");
     $("#modal-edicion-crud").modal("show");
 });
+
+$(document).on("click", "#btnBaja", async function () {
+    var id = $("#id-i").text().trim();
+
+    try {
+        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+        console.log(csrfToken)
+        const response = await fetch(`http://127.0.0.1:8000/baja/${id}/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+            },
+        });
+
+        if (response.ok) {
+            location.reload();
+        }
+    } catch (error) {
+        // Manejar el error en caso de un problema con la petición Fetch
+    }
+});
+
+$(document).on("click", "#btnAlta", async function () {
+    var id = $("#id-i").text().trim();
+
+    try {
+        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+        console.log(csrfToken)
+        const response = await fetch(`http://127.0.0.1:8000/alta/${id}/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+            },
+        });
+
+        if (response.ok) {
+            location.reload();
+        }
+    } catch (error) {
+        // Manejar el error en caso de un problema con la petición Fetch
+    }
+});
+
 
 let dataTable;
 let dataTableInicializada = false;
@@ -144,3 +196,5 @@ const clientes = async () => {
 window.addEventListener('load', async () => {
     await initDataTable();
 });
+
+

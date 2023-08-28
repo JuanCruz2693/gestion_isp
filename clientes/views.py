@@ -49,3 +49,18 @@ def editar(request):
         formulario.save()
         return redirect('clientes')
     return render(request,"Clientes.html", {'formulario': formulario})
+
+def baja_logica(request,id):
+    if request.method == 'POST':
+        cliente = Cliente.objects.get(id=id)
+        cliente.estado = 'B'
+        cliente.save()
+        return JsonResponse({'message':'Baja realizada correctamente'})
+
+
+def alta(request,id):
+    if request.method == 'POST':
+        cliente = Cliente.objects.get(id=id)
+        cliente.estado = 'A'
+        cliente.save()
+        return JsonResponse({'message':'Alta exitosa'})
