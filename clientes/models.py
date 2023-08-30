@@ -23,7 +23,7 @@ class Servicio(models.Model):
             + self.tipo_plan
             + " - Megas: "
             + self.cantidad_megas
-            + " - Montoo: $"
+            + " - Monto: $"
             + str(self.monto)
         )
 
