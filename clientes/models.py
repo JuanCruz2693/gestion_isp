@@ -39,7 +39,14 @@ class Cliente(models.Model):
     nombre = models.CharField(max_length=100)
     direccion = models.CharField(max_length=200)
     telefono = models.CharField(max_length=15)
-    estado = models.CharField(max_length=1, default="A")
+    ESTADOS = [
+        ['A' ,'A'],
+        ['B', 'B'],
+        ['S', 'S']
+    ]
+    router = models.CharField(max_length=30, default='Mercusi')
+    n_serie = models.BigIntegerField(default= 1234567893)
+    estado = models.CharField(max_length=1, default="A",choices=ESTADOS)
     observaciones = models.TextField()
     fecha_alta = models.DateField(default= datetime.date.today )
     idServicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, verbose_name='Servicio')
