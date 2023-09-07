@@ -17,7 +17,7 @@
             value="{{ cliente.fecha_alta|date:'Y-m-d' }}">
         {% else %}
         <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.name }}"
-            name="{{ campo.name }}" value="{{ cliente.some_field }}">
+            name="{{ campo.name }}" value="{{ cliente.some_field }}" autocomplete="off">
         {% endif %}
     </div>
     {% endfor %}

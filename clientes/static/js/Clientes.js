@@ -34,10 +34,10 @@ $(document).on("click", ".btnInfo", function () {
             $("#monto-i").text("$" + cliente.idServicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
 
-            if(cliente.estado == 'B'){
+            if (cliente.estado == 'B') {
                 $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta")
                 $("#btnBaja").attr("id", "btnAlta");
-            }else{
+            } else {
                 $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja")
                 $("#btnAlta").attr("id", "btnBaja");
             }
@@ -217,5 +217,3 @@ const clientes = async () => {
 window.addEventListener('load', async () => {
     await initDataTable();
 });
-
-
