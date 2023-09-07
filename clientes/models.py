@@ -72,3 +72,4 @@ class ClienteDeuda(models.Model):
 
     class Meta:
         unique_together = ("cliente", "deuda")
+

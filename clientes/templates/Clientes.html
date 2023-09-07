@@ -22,7 +22,7 @@
 
 
     <!--importamos los estilos del css-->
-    <link href="stylesheet" href="Clientes.css">
+    <link href="stylesheet" href="{% static 'css/Cliente.css' %}">>
 
     <!--importamos datatables-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -34,7 +34,7 @@
 
 
     <!--crsf token-->
-    <meta name="csrf-token" content={% csrf_token %}
+    <meta name="csrf-token" content='{% csrf_token %}'
 </head>
 
 <body>
@@ -128,6 +128,9 @@
                     <button type="button" id="btnEditar" class="btn btn-primary">Editar</button>
                     <!-- Boton baja logica -->
                     <button type="button" id="btnBaja" class="btn btn-danger">Baja</button>
+                    <!-- Boton suspender -->
+                    <button type="button" id="btnSuspender" class="btn btn-warning">Suspender</button>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>

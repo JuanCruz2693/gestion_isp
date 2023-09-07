@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import ClienteForm
 from .models import Servicio, Zona, Cliente
 from django.http.response import JsonResponse
-
+from django.shortcuts import get_object_or_404 
 
 # Create your views here.
 def home(request):
@@ -64,3 +64,21 @@ def alta(request,id):
         cliente.estado = 'A'
         cliente.save()
         return JsonResponse({'message':'Alta exitosa'})
+
+def suspender_cliente(request, id):
+    # Busca al cliente por su ID o cualquier otro identificador único que estés utilizando
+    cliente = get_object_or_404(Cliente, id=id)
+
+    try:
+        # Realiza la lógica de suspensión aquí
+        # Esto puede incluir la actualización del estado del cliente u otras acciones necesarias
+        # Por ejemplo, puedes cambiar el estado de 'activo' a 'suspendido'
+        cliente.estado = 'Suspendido'
+        cliente.save()
+
+        # Devuelve una respuesta JSON para indicar que la suspensión fue exitosa
+        return JsonResponse({'mensaje': 'Cliente suspendido exitosamente.'})
+    except Exception as e:
+        # Maneja cualquier error que pueda ocurrir durante la suspensión del cliente
+        # Devuelve una respuesta JSON de error en caso de error
+        return JsonResponse({'error': str(e)}, status=500)

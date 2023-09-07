@@ -125,6 +125,27 @@ $(document).on("click", "#btnAlta", async function () {
     }
 });
 
+$(document).on("click", "#btnSuspender", async function () {
+    var id = $("#id-i").text().trim();
+
+    try {
+        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+        console.log(csrfToken)
+        const response = await fetch(`http://127.0.0.1:8000/suspender/${id}/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+            },
+        });
+
+        if (response.ok) {
+            location.reload();
+        }
+    } catch (error) {
+        // Manejar el error en caso de un problema con la petición Fetch
+    }
+});
 
 let dataTable;
 let dataTableInicializada = false;
