@@ -27,6 +27,8 @@ $(document).on("click", ".btnInfo", function () {
             $("#apellido-i").text(cliente.apellido);
             $("#direccion-i").text(cliente.direccion);
             $("#telefono-i").text(cliente.telefono);
+            $("#router-i").text(cliente.router);
+            $("#numero-serie-i").text(cliente.n_serie);
             $("#estado-i").text(cliente.estado);
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
@@ -57,6 +59,8 @@ $(document).on("click", "#btnEditar", function () {
     var direccion = $("#direccion-i").text().trim();
     var telefono = $("#telefono-i").text().trim();
     var estado = $("#estado-i").text().trim();
+    var router = $("#router-i").text().trim();
+    var n_serie = $("#numero-serie-i").text().trim();
     var observaciones = $("#observaciones-i").text().trim();
     var fecha_alta = $('#fechaAlta-i').text().trim();
     var servicio = $("#servicio-i").text().trim();
@@ -69,6 +73,8 @@ $(document).on("click", "#btnEditar", function () {
     $("#formEdicion #apellido").val(apellido);
     $("#formEdicion #direccion").val(direccion);
     $("#formEdicion #telefono").val(telefono);
+    $("#formEdicion #router").val(router);
+    $("#formEdicion #numero-serie").val(n_serie);
     $("#formEdicion #estado").val(estado);
     $("#formEdicion #observaciones").val(observaciones);
     $('#formEdicion #fecha_alta').val(fecha_alta);

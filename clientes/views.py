@@ -20,6 +20,8 @@ def cargar_clientes(request):
             "direccion",
             "telefono",
             "estado",
+            "router",
+            "n_serie",
             "observaciones",
             "fecha_alta",
             "idServicio__tipo_plan",
