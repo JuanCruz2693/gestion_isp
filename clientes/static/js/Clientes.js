@@ -1,4 +1,3 @@
-
 //alta con jquery
 $("#btnNuevo").click(function () {
     $("#formClientes").trigger("reset");
@@ -42,6 +41,11 @@ $(document).on("click", ".btnInfo", function () {
             } else {
                 $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja")
                 $("#btnAlta").attr("id", "btnBaja");
+            }
+            if (cliente.estado == 'A') {
+                $("#btnSuspender").show();
+            } else {
+                $("#btnSuspender").hide();
             }
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");

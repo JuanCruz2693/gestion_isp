@@ -68,19 +68,8 @@ def alta(request,id):
         return JsonResponse({'message':'Alta exitosa'})
 
 def suspender_cliente(request, id):
-    # Busca al cliente por su ID o cualquier otro identificador único que estés utilizando
-    cliente = get_object_or_404(Cliente, id=id)
-
-    try:
-        # Realiza la lógica de suspensión aquí
-        # Esto puede incluir la actualización del estado del cliente u otras acciones necesarias
-        # Por ejemplo, puedes cambiar el estado de 'activo' a 'suspendido'
-        cliente.estado = 'Suspendido'
+    if request.method == 'POST':
+        cliente = Cliente.objects.get(id=id)
+        cliente.estado = 'S'
         cliente.save()
-
-        # Devuelve una respuesta JSON para indicar que la suspensión fue exitosa
-        return JsonResponse({'mensaje': 'Cliente suspendido exitosamente.'})
-    except Exception as e:
-        # Maneja cualquier error que pueda ocurrir durante la suspensión del cliente
-        # Devuelve una respuesta JSON de error en caso de error
-        return JsonResponse({'error': str(e)}, status=500)
+        return JsonResponse({'message':'Suspendido exitosamente'})
