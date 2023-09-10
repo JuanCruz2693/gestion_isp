@@ -36,17 +36,20 @@ $(document).on("click", ".btnInfo", function () {
             $("#zona-i").text(cliente.zona__nombre);
 
             if (cliente.estado == 'B') {
-                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta")
+                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
                 $("#btnBaja").attr("id", "btnAlta");
             } else {
-                $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja")
+                $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja");
                 $("#btnAlta").attr("id", "btnBaja");
             }
-            if (cliente.estado == 'A') {
-                $("#btnSuspender").show();
-            } else {
+            
+            if (cliente.estado == 'S') {
+                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
+                $("#btnBaja").attr("id", "btnAlta");
                 $("#btnSuspender").hide();
+
             }
+            
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");
         })
