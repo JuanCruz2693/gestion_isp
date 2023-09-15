@@ -6,7 +6,7 @@
         <label for="{{ campo.name }}" class="form-label">{{ campo.label }}</label>
 
         {% if campo.field.widget.input_type == 'select' %}
-        <select class="form-select" id="{{ campo.name }}" name="{{ campo.name }}" autocomplete="off">
+        <select class="form-select" id="{{ campo.name }}" name="{{ campo.name }}">
             <option value="">Seleccionar</option>
             {% for option in campo.field.choices %}
             <option value="{{ option.0 }}">{{ option.1 }}</option>
@@ -17,7 +17,7 @@
             value="{{ cliente.fecha_alta|date:'Y-m-d' }}">
         {% else %}
         <input type="{{ campo.field.widget.input_type }}" class="form-control" id="{{ campo.name }}"
-            name="{{ campo.name }}" value="{{ cliente.some_field }}" autocomplete="off">
+            name="{{ campo.name }}" value="{{ cliente.some_field }}">
         {% endif %}
     </div>
     {% endfor %}

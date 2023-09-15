@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from .forms import ClienteForm
-from .models import Servicio, Zona, Cliente
+from .models import Servicio, Zona, Cliente, Dueda
 from django.http.response import JsonResponse
-from django.shortcuts import get_object_or_404 
+from datetime import datetime
 
 # Create your views here.
 def home(request):
@@ -46,11 +46,11 @@ def registrar(request):
 def editar(request):
     id = request.POST.get('form-edicion-id')
     cliente = Cliente.objects.get(id=id)
-    formulario = ClienteForm(request.POST or None, instance=cliente)
-    if formulario.is_valid() and request.method == 'POST':
+    formulario = ClienteForm(request.POST, instance=cliente)
+    if formulario.is_valid():
         formulario.save()
-        return redirect('clientes')
-    return render(request,"Clientes.html", {'formulario': formulario})
+    print(formulario.errors)
+    return redirect('clientes')
 
 def baja_logica(request,id):
     if request.method == 'POST':
@@ -73,3 +73,11 @@ def suspender_cliente(request, id):
         cliente.estado = 'S'
         cliente.save()
         return JsonResponse({'message':'Suspendido exitosamente'})
+
+
+def generar_deuda(request):
+    fecha = datetime.now()
+    fecha_formateada = fecha.strftime("%Y-%m-%d")
+    deuda = Dueda(mes=fecha_formateada)
+    deuda.save()
+    

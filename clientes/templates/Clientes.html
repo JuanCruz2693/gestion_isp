@@ -121,7 +121,7 @@
                             <p><strong>Teléfono:</strong> <span id="telefono-i"></span></p>
                             <p><strong>Router:</strong> <span id="router-i"></span></p>
                             <p><strong>N° de serie:</strong> <span id="numero-serie-i"></span></p>
-                            <p><strong>Estado:</strong> <span id="estado-i"></span></p>
+                            <p><strong>Estado:</strong><input type="hidden" id="estado-letra" value=""> <span id="estado-i"><i class=""></i></span></p>
                             <p><strong>Observaciones:</strong> <span id="observaciones-i"></span></p>
                             <p><strong>Fecha de Alta:</strong> <span id="fechaAlta-i"></span></p>
                             <p><strong>Deuda:</strong> <span id="deuda-i"></span></p> <!-- Agregado: Mostrar deuda -->
@@ -209,7 +209,7 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
-
+    <!--JavaScript propio-->
     <script src="{% static 'js/Clientes.js' %}"></script>
 </body>
 

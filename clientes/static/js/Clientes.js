@@ -28,7 +28,16 @@ $(document).on("click", ".btnInfo", function () {
             $("#telefono-i").text(cliente.telefono);
             $("#router-i").text(cliente.router);
             $("#numero-serie-i").text(cliente.n_serie);
-            $("#estado-i").text(cliente.estado);
+            // Mostrar el estado como un icono de FontAwesome
+            var estadoElement = $("#estado-i");
+            estadoElement.empty(); // Limpia el contenido existente
+            if (cliente.estado == 'A') {
+            estadoElement.append('<i class="fas fa-check-circle text-success"></i>');
+            }if (cliente.estado == 'B'){
+                estadoElement.append('<i class="fas fa-times-circle text-danger"></i>');
+            }if(cliente.estado == 'S') {
+                estadoElement.append('<i class="fas fa-circle-exclamation text-warning"></i>')
+            }
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
@@ -66,6 +75,7 @@ $(document).on("click", "#btnEditar", function () {
     var direccion = $("#direccion-i").text().trim();
     var telefono = $("#telefono-i").text().trim();
     var estado = $("#estado-i").text().trim();
+    console.log(estado)
     var router = $("#router-i").text().trim();
     var n_serie = $("#numero-serie-i").text().trim();
     var observaciones = $("#observaciones-i").text().trim();
@@ -81,7 +91,7 @@ $(document).on("click", "#btnEditar", function () {
     $("#formEdicion #direccion").val(direccion);
     $("#formEdicion #telefono").val(telefono);
     $("#formEdicion #router").val(router);
-    $("#formEdicion #numero-serie").val(n_serie);
+    $("#formEdicion #n_serie").val(n_serie);
     $("#formEdicion #estado").val(estado);
     $("#formEdicion #observaciones").val(observaciones);
     $('#formEdicion #fecha_alta').val(fecha_alta);
