@@ -1,3 +1,13 @@
+<<<<<<< HEAD
+{% extends "sidebar/sidebar.html" %}
+{% load static %}    
+{% block title %}Clientes{% endblock %}  
+{% block title_1 %} 
+   <i class='bx bxs-user check icon'></i>
+   <span class="text nav-text p-1">Clientes</span>
+{% endblock %} 
+{% block content %}         
+=======
 {% load static %}
 <!DOCTYPE html>
 <html lang="es">
@@ -59,10 +69,10 @@
 
     <hr class="m-0"> <!-- Agrega una línea divisora utilizando la clase de margen cero (m-0) de Bootstrap -->
 
+>>>>>>> e408f5dcfee37062dd848e3470c957ae13989684
     <div class="container my-3">
         <div class="row">
-            <div class="col-lg-12">
-                <h2>Clientes</h2>
+            <div class="col-lg-12">                
                 <!--boton nuevo-->
                 <button id="btnNuevo" type="button" class="btn btn-outline-success my-3">Nuevo</button>
                 <!--boton generar deuda-->
@@ -188,6 +198,7 @@
             </div>
         </div>
     </div>
+    </section>
 
 
     <!-- jQuery -->
@@ -209,8 +220,13 @@
     <!-- DataTables JS -->
     <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+<<<<<<< HEAD
+
+    <script src="{% static 'js/Clientes.js' %}"></script>{% endblock %}
+=======
     <!--JavaScript propio-->
     <script src="{% static 'js/Clientes.js' %}"></script>
 </body>
 
 </html>
+>>>>>>> e408f5dcfee37062dd848e3470c957ae13989684
