@@ -1,4 +1,3 @@
-
 //alta con jquery
 $("#btnNuevo").click(function () {
     $("#formClientes").trigger("reset");
@@ -27,20 +26,39 @@ $(document).on("click", ".btnInfo", function () {
             $("#apellido-i").text(cliente.apellido);
             $("#direccion-i").text(cliente.direccion);
             $("#telefono-i").text(cliente.telefono);
-            $("#estado-i").text(cliente.estado);
+            $("#router-i").text(cliente.router);
+            $("#numero-serie-i").text(cliente.n_serie);
+            // Mostrar el estado como un icono de FontAwesome
+            var estadoElement = $("#estado-i");
+            estadoElement.empty(); // Limpia el contenido existente
+            if (cliente.estado == 'A') {
+            estadoElement.append('<i class="fas fa-check-circle text-success"></i>');
+            }if (cliente.estado == 'B'){
+                estadoElement.append('<i class="fas fa-times-circle text-danger"></i>');
+            }if(cliente.estado == 'S') {
+                estadoElement.append('<i class="fas fa-circle-exclamation text-warning"></i>')
+            }
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
             $("#monto-i").text("$" + cliente.idServicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
 
-            if(cliente.estado == 'B'){
-                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta")
+            if (cliente.estado == 'B') {
+                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
                 $("#btnBaja").attr("id", "btnAlta");
-            }else{
-                $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja")
+            } else {
+                $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja");
                 $("#btnAlta").attr("id", "btnBaja");
             }
+            
+            if (cliente.estado == 'S') {
+                $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
+                $("#btnBaja").attr("id", "btnAlta");
+                $("#btnSuspender").hide();
+
+            }
+            
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");
         })
@@ -57,6 +75,9 @@ $(document).on("click", "#btnEditar", function () {
     var direccion = $("#direccion-i").text().trim();
     var telefono = $("#telefono-i").text().trim();
     var estado = $("#estado-i").text().trim();
+    console.log(estado)
+    var router = $("#router-i").text().trim();
+    var n_serie = $("#numero-serie-i").text().trim();
     var observaciones = $("#observaciones-i").text().trim();
     var fecha_alta = $('#fechaAlta-i').text().trim();
     var servicio = $("#servicio-i").text().trim();
@@ -69,6 +90,8 @@ $(document).on("click", "#btnEditar", function () {
     $("#formEdicion #apellido").val(apellido);
     $("#formEdicion #direccion").val(direccion);
     $("#formEdicion #telefono").val(telefono);
+    $("#formEdicion #router").val(router);
+    $("#formEdicion #n_serie").val(n_serie);
     $("#formEdicion #estado").val(estado);
     $("#formEdicion #observaciones").val(observaciones);
     $('#formEdicion #fecha_alta').val(fecha_alta);
@@ -125,6 +148,27 @@ $(document).on("click", "#btnAlta", async function () {
     }
 });
 
+$(document).on("click", "#btnSuspender", async function () {
+    var id = $("#id-i").text().trim();
+
+    try {
+        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+        console.log(csrfToken)
+        const response = await fetch(`http://127.0.0.1:8000/suspender/${id}/`, {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+            },
+        });
+
+        if (response.ok) {
+            location.reload();
+        }
+    } catch (error) {
+        // Manejar el error en caso de un problema con la petición Fetch
+    }
+});
 
 let dataTable;
 let dataTableInicializada = false;
@@ -196,5 +240,3 @@ const clientes = async () => {
 window.addEventListener('load', async () => {
     await initDataTable();
 });
-
-

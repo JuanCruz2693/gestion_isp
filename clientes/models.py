@@ -29,7 +29,7 @@ class Servicio(models.Model):
 
 
 class Dueda(models.Model):
-    id_deuda = models.IntegerField(primary_key=True)
+    id_deuda = models.AutoField(primary_key=True)
     mes = models.DateField()
 
 
@@ -72,3 +72,4 @@ class ClienteDeuda(models.Model):
 
     class Meta:
         unique_together = ("cliente", "deuda")
+
