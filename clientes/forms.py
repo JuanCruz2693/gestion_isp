@@ -9,4 +9,3 @@ class ClienteForm(forms.ModelForm):
         widgets = {
             'fecha_alta': forms.DateInput(attrs={'type': 'date'})
         }
-        

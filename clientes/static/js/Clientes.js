@@ -9,6 +9,28 @@ $("#btnNuevo").click(function () {
     $("#modalCRUD").modal("show");
 });
 
+$(document).ready(function(){
+    $("#formClientes").on("submit", function(event){
+        event.preventDefault();
+
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/clientes",
+            data: $(this).serialize(),
+            success: function(response){
+                
+            }
+        })
+    })
+})
+
+
+
+
+
+
+
+
 let idCliente = null;
 //botón INFO  
 $(document).on("click", ".btnInfo", function () {
