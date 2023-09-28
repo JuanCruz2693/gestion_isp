@@ -4,6 +4,8 @@ from .models import Servicio, Zona, Cliente, Dueda
 from django.http.response import JsonResponse
 from datetime import datetime
 from django.contrib.auth import authenticate,login, logout
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
 
@@ -25,6 +27,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
+@login_required(login_url='login')
 def home(request):
     clientes = Cliente.objects.count()
     return render(request, "home.html", {"clientes": clientes})
