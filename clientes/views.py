@@ -55,7 +55,7 @@ def cargar_clientes(request):
     data = {"clientes": clientes}
     return JsonResponse(data)
 
-
+@login_required(login_url='login')
 def registrar(request):
     formulario = ClienteForm(request.POST or None)
     servicios = Servicio.objects.all()
