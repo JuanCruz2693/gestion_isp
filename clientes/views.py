@@ -3,8 +3,31 @@ from .forms import ClienteForm
 from .models import Servicio, Zona, Cliente, Dueda
 from django.http.response import JsonResponse
 from datetime import datetime
+from django.contrib.auth import authenticate,login, logout
+from django.contrib.auth.decorators import login_required
+
 
 # Create your views here.
+
+def login_view(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username = username, password = password)
+        
+        if user:
+            login(request, user)
+            return redirect('home')
+
+    return render (request, 'users/login.html', {
+    })
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
+
+@login_required(login_url='login')
 def home(request):
     clientes = Cliente.objects.count()
     return render(request, "home.html", {"clientes": clientes})

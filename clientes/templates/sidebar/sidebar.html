@@ -150,7 +150,7 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="#">
+                    <a href="{% url 'logout' %}">
                         <i class='bx bx-log-out icon'></i>
                         <span class="text nav-text">Cerrar Sesion</span>
                     </a>
@@ -175,8 +175,12 @@
 
     <section class="usuario">
         <div class="usario-perfil">
-            <span class="username" id="username-placeholder">Nombre de usuario</span>
-            <img class="foto-perfil" src="Imagen/perfil.png" alt="Foto de perfil">
+            {% if user.is_authenticated %}
+                <span class="username" id="username-placeholder">{{ user.username }}</span>
+            {% else %}
+                <span class="username" id="username-placeholder">Nombre de usuario</span>
+            {% endif %}
+            <img class="foto-perfil" src="{% static 'css/Imagen/Logo.png' %}" alt="Foto de perfil">
         </div>
         <div class="boton-nuevo">
             <div class="title">
@@ -184,9 +188,8 @@
             </div>
         </div>
     
-
     {% block content %} {% endblock %} 
-
+    </section>
 
     <!-- jQuery, Popper.js, Bootstrap JS -->
     <script src="JQuery/jquery-3.6.4.min.js"></script>
@@ -198,8 +201,7 @@
 
 
 
-    <script src= {% static 'js/sidebar.js' %}></script>
-
+    <script src= "{% static 'js/sidebar.js' %}"></script>
 
 </body>
 
