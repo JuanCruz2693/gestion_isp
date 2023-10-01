@@ -207,7 +207,6 @@ body.dark .sidebar li a:hover .text {
     flex-direction: column;
     justify-content: space-between;
     overflow-y: scroll;
-    
 }
 
 .menu-bar::-webkit-scrollbar {
@@ -222,27 +221,6 @@ body.dark .sidebar li a:hover .text {
     transition: var(--tran-05);
 }
 
-.menu-bar .mode .sun-moon {
-    height: 50px;
-    width: 60px;
-}
-
-.mode .sun-moon i {
-    position: absolute;
-}
-
-.mode .sun-moon i.sun {
-    opacity: 0;
-}
-
-body.dark .mode .sun-moon i.sun {
-    opacity: 1;
-}
-
-body.dark .mode .sun-moon i.moon {
-    opacity: 0;
-}
-
 .menu-bar .bottom-content .toggle-switch {
     position: absolute;
     right: 0;
@@ -253,28 +231,6 @@ body.dark .mode .sun-moon i.moon {
     justify-content: center;
     border-radius: 6px;
     cursor: pointer;
-}
-
-.toggle-switch .switch {
-    position: relative;
-    height: 22px;
-    width: 40px;
-    border-radius: 25px;
-    background-color: var(--toggle-color);
-    transition: var(--tran-05);
-}
-
-.switch::before {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background-color: var(--sidebar-color);
-    transition: var(--tran-04);
 }
 
 /*============================*/
@@ -365,66 +321,66 @@ body.dark .usuario .text {
 
 
 /* Estilos para tabla*/
-.usuario .container-fluid{
+.usuario .container-fluid {
     background-color: #f5f1f1 !important;
     background: hsl(200, 17%, 86%);
     height: 100%;
 
 }
 
-.usuario .card{
+.usuario .card {
     background: #FFF;
 }
 
-.usuario .card-body #Clientes #tablaClientes{
+.usuario .card-body #Clientes #tablaClientes {
     background-color: var(--sidebar-color);
     color: var(--text-color);
     border-radius: 6px;
     padding: 5px;
-    margin: 10px; 
-  }
-  
-  .card-body #Clientes #tablaClientes{
+    margin: 10px;
+}
+
+.card-body #Clientes #tablaClientes {
     width: 100%;
-  }
-  
-  #Clientes #tablaClientes th,
-  #Clientes #tablaClientes td {
+}
+
+#Clientes #tablaClientes th,
+#Clientes #tablaClientes td {
     padding: 8px;
     text-align: left;
-  }
-  
-  #Clientes #tablaClientes th {
+}
+
+#Clientes #tablaClientes th {
     background-color: var(--primary-color);
     color: var(--sidebar-color);
-  }
-  
-  #Clientes #tablaClientes tbody tr:nth-child(even) {
+}
+
+#Clientes #tablaClientes tbody tr:nth-child(even) {
     background-color: var(--primary-color-light);
-  }
-  
-  /* Estilos oscuros para tabla */
-  body.dark #Clientes #tablaClientes{
+}
+
+/* Estilos oscuros para tabla */
+body.dark #Clientes #tablaClientes {
     background-color: #242526;
     color: var(--text-color);
-  }
-  
-  body.dark #Clientes #tablaClientes th {
+}
+
+body.dark #Clientes #tablaClientes th {
     background-color: var(--primary-color);
     color: var(--sidebar-color);
-  }
-  
-  body.dark #Clientes #tablaClientes tbody tr:nth-child(even) {
+}
+
+body.dark #Clientes #tablaClientes tbody tr:nth-child(even) {
     background-color: var(--primary-color-light);
-  }
-    
-  .dark .usuario .card{
+}
+
+.dark .usuario .card {
     background-color: var(--primary-color-light);
     color: var(--text-color);
     border-color: #FFF;
 }
 
-.usuario .container-fluid{
+.usuario .container-fluid {
     background-color: var(--primary-color-light);
 }
 
@@ -432,20 +388,23 @@ body.dark .usuario .text {
 
 
 /* Estilos para cada card individual */
-.title{
+.title {
     text-align: center;
 }
+
 .cards {
     background-color: #FFF;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
-    margin: 20px; /* Ajusta el margen para crear espacio entre las cards */
-    min-height: 200px; /* Establece una altura mínima para todas las cards */
+    margin: 20px;
+    /* Ajusta el margen para crear espacio entre las cards */
+    min-height: 200px;
+    /* Establece una altura mínima para todas las cards */
     transition: var(--tran-03);
 }
 
-.cards .no-underline{
+.cards .no-underline {
     text-decoration: none;
     color: inherit;
 }
@@ -460,9 +419,12 @@ body.dark .usuario .text {
 
 /*Modo oscuro de las cards*/
 body.dark .overview {
-    background-color: #333; /* Puedes ajustar el color de fondo para el modo oscuro según tus preferencias */
-    color: #FFF; /* También puedes ajustar el color del texto para que sea legible en el modo oscuro */
+    background-color: #333;
+    /* Puedes ajustar el color de fondo para el modo oscuro según tus preferencias */
+    color: #FFF;
+    /* También puedes ajustar el color del texto para que sea legible en el modo oscuro */
 }
+
 .cards.dark {
     background-color: #242526;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
