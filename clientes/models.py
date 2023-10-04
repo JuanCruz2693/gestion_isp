@@ -66,7 +66,7 @@ class Cliente(models.Model):
 class ClienteDeuda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
     deuda = models.ForeignKey(Dueda, on_delete=models.CASCADE)
-    fecha_pago = models.DateField()
+    fecha_pago = models.DateField(null=True)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     pagado = models.BooleanField(default=False)
 
