@@ -1,3 +1,4 @@
+/* Google Font Import - Poppins */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 * {
@@ -230,28 +231,6 @@ body.dark .sidebar li a:hover .text {
     justify-content: center;
     border-radius: 6px;
     cursor: pointer;
-}
-
-.toggle-switch .switch {
-    position: relative;
-    height: 22px;
-    width: 40px;
-    border-radius: 25px;
-    background-color: var(--toggle-color);
-    transition: var(--tran-05);
-}
-
-.switch::before {
-    content: '';
-    position: absolute;
-    height: 15px;
-    width: 15px;
-    border-radius: 50%;
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-    background-color: var(--sidebar-color);
-    transition: var(--tran-04);
 }
 
 /*============================*/
