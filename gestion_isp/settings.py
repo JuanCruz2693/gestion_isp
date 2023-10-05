@@ -79,7 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'gestion2',
         'USER': 'root',
-        'PASSWORD': '261093',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306'
     }
@@ -108,7 +108,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
-LANGUAGE_CODE = 'es-ar'
+LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
 
