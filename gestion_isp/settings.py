@@ -77,9 +77,13 @@ WSGI_APPLICATION = 'gestion_isp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gestion2',
+        'NAME': 'conexgod',
         'USER': 'root',
+<<<<<<< HEAD
         'PASSWORD': '261093',
+=======
+        'PASSWORD': '123456',
+>>>>>>> rama_pruebaError
         'HOST': 'localhost',
         'PORT': '3306'
     }
