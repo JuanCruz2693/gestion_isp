@@ -79,11 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'conexgod',
         'USER': 'root',
-<<<<<<< HEAD
-        'PASSWORD': '261093',
-=======
         'PASSWORD': '123456',
->>>>>>> rama_pruebaError
         'HOST': 'localhost',
         'PORT': '3306'
     }
