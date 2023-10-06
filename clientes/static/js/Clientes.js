@@ -15,7 +15,7 @@ $(document).ready(function(){
 
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:8000/clientes",
+            url: "http://127.0.0.1:8000/clientes/",
             data: $(this).serialize(),
             success: function(response){
                 
