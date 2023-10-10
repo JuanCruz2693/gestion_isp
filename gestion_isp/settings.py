@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'gestion_isp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'conexgod',
+        'NAME': 'gestion2',
         'USER': 'root',
-        'PASSWORD': '123456',
+        'PASSWORD': 'root',
         'HOST': 'localhost',
         'PORT': '3306'
     }
