@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ======== CSS ======== -->
-    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Sidebar.css' %}">
 
     <!-- ===== Boxicons CSS ===== -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
@@ -66,7 +66,7 @@
 
 
     <!--importamos los estilos del css-->
-    <link href="stylesheet" href="{% static 'css/Cliente.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Clientes.css' %}">
 
     <!--importamos datatables-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -82,7 +82,7 @@
 </head>
 
 <body>
-    <nav class="sidebar close">
+    <nav class="sidebar">
         <header>
             <div class="image-text">
                 <span class="image">
@@ -114,26 +114,27 @@
                             <span class="text nav-text">Clientes</span>
                         </a>
                     </li>
-                    <div class="collapse" id="collapseExample">
+                    <div class="collapse" id="collapseExample" style="font-size: 14px;">
                         <li class="nav-link">
                             <a href="{% url 'clientes' %}">
-                                <i class='bx bxs-user-plus icon'></i>
-                                <span class="text nav-text">Total Clientes</span>
+                                <i class='bx bxs-user-plus icon' style="font-size: 18px;"></i>
+                                <span class="text nav-text" style="font-size: 12px;">Total Clientes</span>
                             </a>
                         </li>
                         <li class="nav-link">
                             <a href="#">
-                                <i class='bx bxs-user-check icon'></i>
-                                <span class="text nav-text">Clientes al día</span>
+                                <i class='bx bxs-user-check icon' style="font-size: 18px;"></i>
+                                <span class="text nav-text" style="font-size: 12px;">Clientes al día</span>
                             </a>
                         </li>
                         <li class="nav-link">
                             <a href="#">
-                                <i class='bx bxs-user-x icon'></i>
-                                <span class="text nav-text">Clientes con deuda</span>
+                                <i class='bx bxs-user-x icon' style="font-size: 18px;"></i>
+                                <span class="text nav-text" style="font-size: 12px;">Clientes con deuda</span>
                             </a>
                         </li>
                     </div>
+                    
 
 
                     <!--<li class="nav-link">
@@ -178,17 +179,16 @@
 
                 <li class="mode">
                     <div class="sun-moon">
-                        <i class='bx bx-moon icon moon' style="display: none;"></i>
+                        <i class='bx bx-moon icon moon'></i>
                         <i class='bx bx-sun icon sun'></i>
                     </div>
                     <span class="mode-text text">Dark mode</span>
-
+                
                     <div class="toggle-switch">
                         <input type="checkbox" id="modeSwitch" style="display: none;">
                         <label for="modeSwitch" class="switch"></label>
                     </div>
-                </li>
-
+                </li>                
             </div>
         </div>
 
@@ -219,7 +219,7 @@
         crossorigin="anonymous"></script>
 
 
-    <script src="{% static 'js/sidebar.js' %}"></script>
+    <script src="{% static 'js/Sidebar.js' %}"></script>
 
 </body>
 

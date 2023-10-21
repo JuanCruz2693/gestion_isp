@@ -221,6 +221,12 @@ body.dark .sidebar li a:hover .text {
     transition: var(--tran-05);
 }
 
+.menu-bar .mode .sun-moon {
+    height: 20px;
+    width: 40px;
+    margin-left: 20px;
+}
+
 .menu-bar .bottom-content .toggle-switch {
     position: absolute;
     right: 0;
