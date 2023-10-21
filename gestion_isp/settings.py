@@ -79,11 +79,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'conexgod',
         'USER': 'root',
-<<<<<<< HEAD
         'PASSWORD': '123456',
-=======
-        'PASSWORD': '261093',
->>>>>>> 8777a70efa57b9bfc331ca7e357125588629dbd8
         'HOST': 'localhost',
         'PORT': '3306'
     }

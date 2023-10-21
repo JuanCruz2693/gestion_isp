@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ======== CSS ======== -->
-    <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Sidebar.css' %}">
 
     <!-- ===== Boxicons CSS ===== -->
     <link rel="stylesheet" href="https://unpkg.com/boxicons@2.1.1/css/boxicons.min.css">
@@ -66,7 +66,7 @@
 
 
     <!--importamos los estilos del css-->
-    <link href="stylesheet" href="{% static 'css/Cliente.css' %}">
+    <link rel="stylesheet" href="{% static 'css/Clientes.css' %}">
 
     <!--importamos datatables-->
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
@@ -82,7 +82,7 @@
 </head>
 
 <body>
-    <nav class="sidebar close">
+    <nav class="sidebar">
         <header>
             <div class="image-text">
                 <span class="image">
@@ -178,17 +178,16 @@
 
                 <li class="mode">
                     <div class="sun-moon">
-                        <i class='bx bx-moon icon moon' style="display: none;"></i>
+                        <i class='bx bx-moon icon moon'></i>
                         <i class='bx bx-sun icon sun'></i>
                     </div>
                     <span class="mode-text text">Dark mode</span>
-
+                
                     <div class="toggle-switch">
                         <input type="checkbox" id="modeSwitch" style="display: none;">
                         <label for="modeSwitch" class="switch"></label>
                     </div>
-                </li>
-
+                </li>                
             </div>
         </div>
 
@@ -219,7 +218,7 @@
         crossorigin="anonymous"></script>
 
 
-    <script src="{% static 'js/sidebar.js' %}"></script>
+    <script src="{% static 'js/Sidebar.js' %}"></script>
 
 </body>
 

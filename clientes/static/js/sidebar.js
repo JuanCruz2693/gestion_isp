@@ -5,7 +5,8 @@ const body = document.body,
     themeActual = localStorage.getItem('theme'),
     switchControl = document.getElementById("modeSwitch"),
     moonIcon = document.querySelector('.bx-moon'),
-    sunIcon = document.querySelector('.bx-sun');
+    sunIcon = document.querySelector('.bx-sun'),
+    modeText = body.querySelector(".mode-text");
 
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
@@ -32,11 +33,11 @@ if (themeActual === "oscuro") {
 
 function cambiarIconosSegunTema(tema) {
     if (tema === "oscuro") {
-        moonIcon.style.display = 'block';
-        sunIcon.style.display = 'none';
-    } else {
         moonIcon.style.display = 'none';
         sunIcon.style.display = 'block';
+    } else {
+        moonIcon.style.display = 'block';
+        sunIcon.style.display = 'none';
     }
 }
 
@@ -45,10 +46,12 @@ switchControl.addEventListener("change", () => {
         body.classList.add("dark");
         localStorage.setItem("theme", "oscuro");
         cambiarIconosSegunTema("oscuro");
+        modeText.innerText = "Ligth mode";
     } else {
         body.classList.remove("dark");
         localStorage.removeItem("theme");
         cambiarIconosSegunTema("claro");
+        modeText.innerText = "Dark mode";
     }
 });
 
