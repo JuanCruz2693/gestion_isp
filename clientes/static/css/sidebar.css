@@ -227,8 +227,6 @@ body.dark .sidebar li a:hover .text {
     margin-left: 20px;
 }
 
-
-
 .menu-bar .bottom-content .toggle-switch {
     position: absolute;
     right: 0;
@@ -465,4 +463,3 @@ body.dark .overview {
     background-color: #559be2 !important;
     transition: background-color 0.3s ease !important;
 }
-
