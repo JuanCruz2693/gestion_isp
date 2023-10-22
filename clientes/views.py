@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .forms import ClienteForm
-from .models import Servicio, Zona, Cliente, Dueda
+from .models import Servicio, Zona, Cliente
 from django.http.response import JsonResponse
 from datetime import datetime
 from django.contrib.auth import authenticate,login, logout
@@ -68,7 +68,7 @@ def registrar(request):
     zonas = Zona.objects.all()
     if formulario.is_valid():
         formulario.save()
-        return redirect("clientes")
+        return JsonResponse({'success': 'Cliente guardado con exito'})
     contexto = {"formulario": formulario, "servicios": servicios, "zonas": zonas}
     return render(request, "Clientes.html", contexto)
 
@@ -78,6 +78,7 @@ def editar(request):
     formulario = ClienteForm(request.POST, instance=cliente)
     if formulario.is_valid():
         formulario.save()
+        return JsonResponse({'success': 'Cliente editado con exito'})
     print(formulario.errors)
     return redirect('clientes')
 
@@ -102,11 +103,3 @@ def suspender_cliente(request, id):
         cliente.estado = 'S'
         cliente.save()
         return JsonResponse({'message':'Suspendido exitosamente'})
-
-
-def generar_deuda(request):
-    fecha = datetime.now()
-    fecha_formateada = fecha.strftime("%Y-%m-%d")
-    deuda = Dueda(mes=fecha_formateada)
-    deuda.save()
-    

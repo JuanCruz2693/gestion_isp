@@ -28,11 +28,6 @@ class Servicio(models.Model):
         )
 
 
-class Dueda(models.Model):
-    id_deuda = models.AutoField(primary_key=True)
-    mes = models.DateField()
-
-
 class Cliente(models.Model):
     dni = models.CharField(max_length=10,unique=True)
     apellido = models.CharField(max_length=100)
@@ -65,11 +60,10 @@ class Cliente(models.Model):
 
 class ClienteDeuda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    deuda = models.ForeignKey(Dueda, on_delete=models.CASCADE)
+    mes_deuda = models.CharField(max_length=20)
+    año_deuda = models.IntegerField()
     fecha_pago = models.DateField(null=True)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     pagado = models.BooleanField(default=False)
 
-    class Meta:
-        unique_together = ("cliente", "deuda")
 

@@ -9,26 +9,26 @@ $("#btnNuevo").click(function () {
     $("#modalCRUD").modal("show");
 });
 
-$(document).ready(function(){
-    $("#formClientes").on("submit", function(event){
+$(document).ready(function () {
+    $("#formClientes").on("submit", function (event) {
         event.preventDefault();
 
         $.ajax({
             type: "POST",
             url: "http://127.0.0.1:8000/clientes/",
             data: $(this).serialize(),
-            success: function(response){
-                
+            success: function (response) {
+                Swal.fire(
+                    'Perfecto!',
+                    response,
+                    'success'
+                )
+                $("#modalCRUD").modal("hide")
+                initDataTable()
             }
         })
     })
 })
-
-
-
-
-
-
 
 
 let idCliente = null;
@@ -54,10 +54,10 @@ $(document).on("click", ".btnInfo", function () {
             var estadoElement = $("#estado-i");
             estadoElement.empty(); // Limpia el contenido existente
             if (cliente.estado == 'A') {
-            estadoElement.append('<i class="fas fa-check-circle text-success"></i>');
-            }if (cliente.estado == 'B'){
+                estadoElement.append('<i class="fas fa-check-circle text-success"></i>');
+            } if (cliente.estado == 'B') {
                 estadoElement.append('<i class="fas fa-times-circle text-danger"></i>');
-            }if(cliente.estado == 'S') {
+            } if (cliente.estado == 'S') {
                 estadoElement.append('<i class="fas fa-circle-exclamation text-warning"></i>')
             }
             $("#observaciones-i").text(cliente.observaciones);
@@ -65,22 +65,25 @@ $(document).on("click", ".btnInfo", function () {
             $("#servicio-i").text(cliente.idServicio__tipo_plan);
             $("#monto-i").text("$" + cliente.idServicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
+            $("#deuda-i").text("$" + cliente.clientedeuda__monto + " " + cliente.clientedeuda__deuda__mes);
 
             if (cliente.estado == 'B') {
                 $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
                 $("#btnBaja").attr("id", "btnAlta");
+                $("#btnSuspender").show();
             } else {
                 $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja");
                 $("#btnAlta").attr("id", "btnBaja");
+                $("#btnSuspender").show();
             }
-            
+
             if (cliente.estado == 'S') {
                 $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
                 $("#btnBaja").attr("id", "btnAlta");
                 $("#btnSuspender").hide();
 
             }
-            
+
             $(".modal-title").text("Informacion de Cliente");
             $("#modal-info").modal("show");
         })
@@ -122,27 +125,65 @@ $(document).on("click", "#btnEditar", function () {
 
     $("#titulo-edicion").text("Editar Cliente");
     $("#btnSubmit").text("Guardar");
-    $("#formEdicion").attr("action", "http://127.0.0.1:8000/editar/");
     $("#modal-edicion-crud").modal("show");
+
+    $(document).ready(function () {
+        $("#formEdicion").on("submit", function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8000/editar/",
+                data: $(this).serialize(),
+                success: function (response) {
+                    console.log(response)
+                    Swal.fire(
+                        'Perfecto!',
+                        response.success,
+                        'success'
+                    )
+                    $("#modal-edicion-crud").modal("hide")
+                    $("#modal-info").modal("hide")
+                }
+            })
+        })
+    })
+
+
 });
 
 $(document).on("click", "#btnBaja", async function () {
     var id = $("#id-i").text().trim();
 
     try {
-        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
-        console.log(csrfToken)
-        const response = await fetch(`http://127.0.0.1:8000/baja/${id}/`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
-            },
-        });
-
-        if (response.ok) {
-            location.reload();
-        }
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Estas por dar de baja un cliente",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, realizar baja!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+                console.log(csrfToken)
+                const response = fetch(`http://127.0.0.1:8000/baja/${id}/`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+                    },
+                });
+                Swal.fire(
+                    'Baja exitosa!',
+                    "Tu cliente fue dado de baja!",
+                    'success'
+                )
+                $("#modal-info").modal("hide")
+            }
+        })
     } catch (error) {
         // Manejar el error en caso de un problema con la petición Fetch
     }
@@ -161,9 +202,13 @@ $(document).on("click", "#btnAlta", async function () {
                 "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
             },
         });
-
         if (response.ok) {
-            location.reload();
+            Swal.fire(
+                'Perfecto!',
+                'Tu cliente fue dado de alta!',
+                'success'
+            )
+            $("#modal-info").modal("hide")
         }
     } catch (error) {
         // Manejar el error en caso de un problema con la petición Fetch
@@ -174,16 +219,34 @@ $(document).on("click", "#btnSuspender", async function () {
     var id = $("#id-i").text().trim();
 
     try {
-        const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
-        console.log(csrfToken)
-        const response = await fetch(`http://127.0.0.1:8000/suspender/${id}/`, {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
-            },
-        });
-
+        Swal.fire({
+            title: 'Estas seguro?',
+            text: "Estas suspender un cliente",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, suspender cliente!',
+            cancelButtonText: 'Cancelar'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
+                console.log(csrfToken)
+                const response = fetch(`http://127.0.0.1:8000/suspender/${id}/`, {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken,  // Agregar el token CSRF como encabezado
+                    },
+                });
+                Swal.fire(
+                    'Suspencion exitosa!',
+                    "Tu cliente fue suspendido!",
+                    'success'
+                )
+                $("#modal-info").modal("hide")
+            }
+        })
         if (response.ok) {
             location.reload();
         }
@@ -262,3 +325,20 @@ const clientes = async () => {
 window.addEventListener('load', async () => {
     await initDataTable();
 });
+
+
+//Generar Deuda
+$(document).ready(function () {
+    $('#btnGenerarDeuda').click(function () {
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/generar_deuda/",
+            success: function (response) {
+                console.log(response)
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    })
+})
