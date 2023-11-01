@@ -27,6 +27,27 @@ class Servicio(models.Model):
             + str(self.monto)
         )
 
+class Deuda(models.Model):
+    MES = [
+        ['Enero', 'Enero'],
+        ['Febrero', 'Febrero'],
+        ['Marzo', 'Marzo'],
+        ['Abril', 'Abril'],
+        ['Mayo', 'Mayo'],
+        ['Junio', 'Junio'],
+        ['Julio', 'Julio'],
+        ['Agosto', 'Agosto'],
+        ['Septiembre', 'Septiembre'],
+        ['Octubre', 'Octubre'],
+        ['Noviembre', 'Noviembre'],
+        ['Diciembre', 'Diciembre'],
+    ]
+    mes_deuda = models.CharField(max_length=20, choices=MES)
+    año_deuda = models.IntegerField()
+
+    def __str__(self) -> str:
+        return ("mes : " + self.mes_deuda +
+                " año : " + str(self.año_deuda))
 
 class Cliente(models.Model):
     dni = models.CharField(max_length=10,unique=True)
@@ -44,8 +65,9 @@ class Cliente(models.Model):
     estado = models.CharField(max_length=1, default="A",choices=ESTADOS)
     observaciones = models.TextField()
     fecha_alta = models.DateField(default= datetime.date.today )
-    idServicio = models.ForeignKey(Servicio, on_delete=models.CASCADE, verbose_name='Servicio')
+    servicio = models.ForeignKey(Servicio, on_delete=models.CASCADE)
     zona = models.ForeignKey(Zona, on_delete=models.CASCADE)
+    deudas = models.ManyToManyField(Deuda, through='ClienteDeuda')
 
     def __str__(self):
         return (
@@ -57,13 +79,14 @@ class Cliente(models.Model):
             + self.dni
         )
 
-
 class ClienteDeuda(models.Model):
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    mes_deuda = models.CharField(max_length=20)
-    año_deuda = models.IntegerField()
-    fecha_pago = models.DateField(null=True)
-    monto = models.DecimalField(max_digits=10, decimal_places=2)
+    deuda = models.ForeignKey(Deuda, on_delete=models.CASCADE)
+    monto = models.DecimalField(max_digits=10, decimal_places=2, null=True)
+    monto_pagado = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     pagado = models.BooleanField(default=False)
+    fecha_pago = models.DateField(null=True)
 
+    def __str__(self) -> str:
+        return ("cliente:" + self.cliente.nombre)
 

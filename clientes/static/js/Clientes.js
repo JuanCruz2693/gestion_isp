@@ -9,6 +9,14 @@ $("#btnNuevo").click(function () {
     $("#modalCRUD").modal("show");
 });
 
+$("#btnGenerarDeuda").click(function () {
+    $(".modal-header").css("background-color", "blue");
+    $(".modal-header").css("color", "white");
+    $(".modal-title").text("Generar deuda");
+    $("#deudaModal").modal("show");
+});
+
+
 $(document).ready(function () {
     $("#formClientes").on("submit", function (event) {
         event.preventDefault();
@@ -20,7 +28,7 @@ $(document).ready(function () {
             success: function (response) {
                 Swal.fire(
                     'Perfecto!',
-                    response,
+                    response.success,
                     'success'
                 )
                 $("#modalCRUD").modal("hide")
@@ -62,15 +70,19 @@ $(document).on("click", ".btnInfo", function () {
             }
             $("#observaciones-i").text(cliente.observaciones);
             $("#fechaAlta-i").text(cliente.fecha_alta);
-            $("#servicio-i").text(cliente.idServicio__tipo_plan);
-            $("#monto-i").text("$" + cliente.idServicio__monto);
+            $("#servicio-i").text(cliente.servicio__tipo_plan);
+            $("#monto-i").text("$" + cliente.servicio__monto);
             $("#zona-i").text(cliente.zona__nombre);
-            $("#deuda-i").text("$" + cliente.clientedeuda__monto + " " + cliente.clientedeuda__deuda__mes);
+            var deudaInfo = "";
+            cliente.deudas.forEach(deuda => {
+                deudaInfo += "$" + deuda.monto + " Mes: " + deuda.mes_deuda +  "<br>";
+            });
+            $("#deuda-i").html(deudaInfo);
 
             if (cliente.estado == 'B') {
                 $("#btnBaja").removeClass("btn-danger").addClass("btn-success").text("Alta");
                 $("#btnBaja").attr("id", "btnAlta");
-                $("#btnSuspender").show();
+                $("#btnSuspender").hide();
             } else {
                 $("#btnAlta").removeClass("btn-success").addClass("btn-danger").text("Baja");
                 $("#btnAlta").attr("id", "btnBaja");
@@ -120,7 +132,7 @@ $(document).on("click", "#btnEditar", function () {
     $("#formEdicion #estado").val(estado);
     $("#formEdicion #observaciones").val(observaciones);
     $('#formEdicion #fecha_alta').val(fecha_alta);
-    $("#formEdicion #idServicio option:contains('" + servicio + "')").prop("selected", true);
+    $("#formEdicion #servicio option:contains('" + servicio + "')").prop("selected", true);
     $("#formEdicion #zona option:contains('" + zona + "')").prop("selected", true);
 
     $("#titulo-edicion").text("Editar Cliente");
@@ -326,19 +338,27 @@ window.addEventListener('load', async () => {
     await initDataTable();
 });
 
-
-//Generar Deuda
+//generar deuda
 $(document).ready(function () {
-    $('#btnGenerarDeuda').click(function () {
+    $('#generarDeuda').click(function () {
+        var mesDeuda = $('#id_mes_deuda').val();
+        var añoDeuda = $('#id_año_deuda').val();
+        var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
-            type: "POST",
-            url: "http://127.0.0.1:8000/generar_deuda/",
-            success: function (response) {
-                console.log(response)
+            type: 'POST',
+            url: 'http://127.0.0.1:8000/generar_deuda/',
+            data: {
+                'mes_deuda': mesDeuda,
+                'año_deuda': añoDeuda,
+                'csrfmiddlewaretoken': csrfToken
             },
-            error: function () {
-                console.log('error')
+            dataType: 'json',
+            success: function (data) {
+                console.log('Deuda generada exitosamente.');
+            },
+            error: function (data) {
+                console.log('Error al procesar el formulario.');
             }
-        })
-    })
-})
+        });
+    });
+});
