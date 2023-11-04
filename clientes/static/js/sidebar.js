@@ -63,15 +63,5 @@ switchControl.addEventListener("change", () => {
     }
 });
 
-if (themeActual === "oscuro") {
-    body.classList.add("dark");
-    switchControl.checked = true;
-    cambiarIconosSegunTema("oscuro");
-    modeText.innerText = "Light Mode";
-} else {
-    body.classList.remove("dark");
-    switchControl.checked = false;
-    cambiarIconosSegunTema("claro");
-    modeText.innerText = "Dark Mode";
-}
+
 
