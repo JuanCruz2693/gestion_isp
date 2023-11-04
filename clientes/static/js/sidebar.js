@@ -9,7 +9,6 @@ const body = document.body,
     modeText = body.querySelector(".mode-text"),
     sidebarState = localStorage.getItem('sidebarState');
 
-// Restaurar el estado del sidebar desde el localStorage
 if (sidebarState === 'closed') {
     sidebar.classList.add('close');
 }
@@ -17,7 +16,6 @@ if (sidebarState === 'closed') {
 toggle.addEventListener("click", () => {
     sidebar.classList.toggle("close");
 
-    // Guardar el estado del sidebar en el localStorage
     const newSidebarState = sidebar.classList.contains('close') ? 'closed' : 'open';
     localStorage.setItem('sidebarState', newSidebarState);
 });
