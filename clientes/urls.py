@@ -11,4 +11,5 @@ urlpatterns = [
     path('alta/<int:id>/', views.alta, name='alta'),
     path('suspender/<int:id>/', views.suspender_cliente, name='suspender_cliente'),
     path('users/logout/', views.logout_view, name='logout'),
+    path('generar_deuda/', views.generar_dedua, name='generar_deuda'),
 ]

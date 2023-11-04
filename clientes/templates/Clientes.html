@@ -12,7 +12,36 @@
             <!--boton nuevo-->
             <button id="btnNuevo" type="button" class="btn btn-outline-success my-3">Nuevo</button>
             <!--boton generar deuda-->
-            <button id="btnGenerarDeuda" type="button" class="btn btn-outline-warning my-3">Generar Deuda</button>
+            <button id="btnGenerarDeuda" type="button" class="btn btn-outline-warning my-3" data-bs-toggle="modal"
+                data-bs-target="#deudaModal">Generar Deuda</button>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="deudaModal" tabindex="-1" aria-labelledby="ModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Generar deuda</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label for="{{ form_deuda.mes_deuda.id_for_label }}">Mes de Deuda:</label>
+                            {{ form_deuda.mes_deuda }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form_deuda.año_deuda.id_for_label }}">Año de Deuda:</label>
+                            {{ form_deuda.año_deuda }}
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="generarDeuda">Generar deuda</button>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -70,7 +99,7 @@
                                 id="estado-i"><i class=""></i></span></p>
                         <p><strong>Observaciones:</strong> <span id="observaciones-i"></span></p>
                         <p><strong>Fecha de Alta:</strong> <span id="fechaAlta-i"></span></p>
-                        <p><strong>Deuda:</strong> <span id="deuda-i"></span></p> <!-- Agregado: Mostrar deuda -->
+                        <p><strong>Deuda:</strong></p><span id="deuda-i"></span> <!-- Agregado: Mostrar deuda -->
                     </div>
                 </div>
                 <button type="button" id="btnEditar" class="btn btn-primary">Editar</button>

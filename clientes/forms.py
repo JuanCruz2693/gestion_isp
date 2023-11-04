@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente
+from .models import Cliente, Deuda
 
 class ClienteForm(forms.ModelForm):
     class Meta:
@@ -22,3 +22,9 @@ class LoginForm(forms.Form):
             attrs={"class": "form-control", "placeholder": "Contraseña", "autocomplete": "off"}
         )
     )
+
+class DeudaForm(forms.ModelForm):
+    class Meta:
+        model = Deuda
+        fields = ['mes_deuda', 'año_deuda']
+
