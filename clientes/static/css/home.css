@@ -1,0 +1,34 @@
+/* .card-hover:hover {
+    background-color: #559be2 !important;
+    transition: background-color 0.3s ease !important;
+} */
+.circle-container {
+    display: flex;
+    align-items: center;
+}
+
+.circle {
+    width: 125px;
+    height: 125px;
+    background-color: transparent;
+    border: 10px solid #ccc;
+    border-top-color: var(--primary-color);
+    /* Define tu color de progreso aquí */
+    border-radius: 50%;
+    animation: progress-animation 2s linear forwards;
+}
+
+.percentage {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+}
+
+@keyframes progress-animation {
+    to {
+        transform: rotate(1turn);
+    }
+}
