@@ -202,7 +202,7 @@ def eliminar_servicio(request, servicio_id):
 
 
 @csrf_exempt
-def editar_servicio(request):
+def editar_servicio(request,servicio_id):
     servicio_id = request.POST.get("form-edicion-id")
     servicio = Servicio.objects.get(idServicio=servicio_id)
     formulario = ServiciosForm(request.POST, instance=servicio)
