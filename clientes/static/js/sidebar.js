@@ -74,4 +74,3 @@ if (themeActual === "oscuro") {
     cambiarIconosSegunTema("claro");
     modeText.innerText = "Dark Mode";
 }
-

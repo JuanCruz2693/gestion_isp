@@ -1,16 +1,12 @@
 from django.shortcuts import render, redirect
-from .forms import ClienteForm, DeudaForm
+from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm
 from .models import Servicio, Zona, Cliente, Deuda, ClienteDeuda
 from django.http.response import JsonResponse
-from datetime import datetime
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
-
-from .forms import LoginForm
-
 
 def login_view(request):
     if request.method == "POST":
@@ -139,7 +135,7 @@ def suspender_cliente(request, id):
         return JsonResponse({"message": "Suspendido exitosamente"})
 
 
-def generar_dedua(request):
+def generar_deuda(request):
     form_deuda = DeudaForm(request.POST or None)
     if form_deuda.is_valid():
         mes = form_deuda.cleaned_data["mes_deuda"]
@@ -156,3 +152,33 @@ def generar_dedua(request):
     else:
         response_data = {"error": "Error al generar la deuda"}
         return JsonResponse(response_data, status=400)
+
+
+def servicios(request):
+    form_servicios = ServiciosForm()
+
+    if request.method == "POST":
+        form_servicios = ServiciosForm(request.POST or None)
+
+        if form_servicios.is_valid():
+            monto = form_servicios.cleaned_data["monto"]
+            tipo_plan = form_servicios.cleaned_data["tipo_plan"]
+            cantidad_megas = form_servicios.cleaned_data["cantidad_megas"]
+
+            servicio = Servicio(
+                monto=monto, tipo_plan=tipo_plan, cantidad_megas=cantidad_megas
+            )
+            servicio.save()
+
+            servicio_data = {
+                "monto": servicio.monto,
+                "tipo_plan": servicio.tipo_plan,
+                "cantidad_megas": servicio.cantidad_megas,
+            }
+
+            return redirect('servicio')
+    else:
+        # Obtener la lista de servicios desde la base de datos
+        servicios = Servicio.objects.all()
+
+    return render(request,"servicios.html",{"form_servicios": form_servicios, "servicios": servicios})

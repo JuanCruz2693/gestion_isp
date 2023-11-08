@@ -12,7 +12,7 @@ class Zona(models.Model):
 
 
 class Servicio(models.Model):
-    idServicio = models.IntegerField(primary_key=True)
+    idServicio = models.AutoField(primary_key=True)
     monto = models.DecimalField(max_digits=10, decimal_places=2)
     tipo_plan = models.CharField(max_length=45)
     cantidad_megas = models.CharField(max_length=45)

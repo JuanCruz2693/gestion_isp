@@ -1,5 +1,5 @@
 from django import forms
-from .models import Cliente, Deuda
+from .models import Cliente, Deuda, Servicio
 
 class ClienteForm(forms.ModelForm):
     class Meta:
@@ -28,3 +28,7 @@ class DeudaForm(forms.ModelForm):
         model = Deuda
         fields = ['mes_deuda', 'año_deuda']
 
+class ServiciosForm(forms.ModelForm):
+    class Meta:
+        model = Servicio
+        fields = ['monto', 'tipo_plan', 'cantidad_megas']

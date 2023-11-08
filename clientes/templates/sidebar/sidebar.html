@@ -74,7 +74,7 @@
         integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-    <!--Importamos los script-->
+    <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
 
 
     <!--crsf token-->
@@ -145,7 +145,7 @@
                     </li>-->
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="{% url 'servicios' %}">
                             <i class='bx bx-pie-chart-alt icon'></i>
                             <span class="text nav-text">Planes</span>
                         </a>
