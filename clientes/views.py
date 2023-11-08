@@ -1,12 +1,14 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm
 from .models import Servicio, Zona, Cliente, Deuda, ClienteDeuda
 from django.http.response import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
+
 
 def login_view(request):
     if request.method == "POST":
@@ -56,7 +58,7 @@ def cargar_clientes(request):
                     "fecha_pago": cd.fecha_pago,
                     "monto_pagado": cd.monto_pagado,
                     "pagado": cd.pagado,
-                    "monto": cd.monto
+                    "monto": cd.monto,
                 }
                 deudas_data.append(deuda_info)
 
@@ -176,9 +178,36 @@ def servicios(request):
                 "cantidad_megas": servicio.cantidad_megas,
             }
 
-            return redirect('servicio')
+            return redirect("servicios")
     else:
-        # Obtener la lista de servicios desde la base de datos
         servicios = Servicio.objects.all()
 
-    return render(request,"servicios.html",{"form_servicios": form_servicios, "servicios": servicios})
+    return render(
+        request,
+        "servicios.html",
+        {"form_servicios": form_servicios, "servicios": servicios},
+    )
+
+
+@csrf_exempt
+def eliminar_servicio(request, servicio_id):
+    try:
+        servicio = Servicio.objects.get(idServicio=servicio_id)
+        servicio.delete()
+        return redirect ("servicios")
+    except Servicio.DoesNotExist:
+        return JsonResponse({"error": "El servicio no existe."})
+    except Exception as e:
+        return JsonResponse({"error": "Ha ocurrido un error al eliminar el servicio: " + str(e)})
+
+
+@csrf_exempt
+def editar_servicio(request):
+    servicio_id = request.POST.get("form-edicion-id")
+    servicio = Servicio.objects.get(idServicio=servicio_id)
+    formulario = ServiciosForm(request.POST, instance=servicio)
+    if formulario.is_valid():
+        formulario.save()
+        return JsonResponse({"success": "Servicio editado con éxito"})
+    print(formulario.errors)
+    return JsonResponse({"error": "Error al editar el servicio"})
