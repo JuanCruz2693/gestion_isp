@@ -36,10 +36,12 @@
                                     <td>{{ servicio.monto }}</td>
                                     <td>{{ servicio.tipo_plan }}</td>
                                     <td>{{ servicio.cantidad_megas }}</td>
-                                    <td><button class="btn btn-outline-primary btnEditar" data-servicio-id="{{ servicio.idServicio }}"><i class="bx bx-edit"></i></button>
-
-                                        <button class="btn btn-outline-danger btnEliminar"><i
-                                                class="bx bx-delete"></i></button>
+                                    <td><button class="btn btn-outline-primary btnEditar" data-servicio-id="{{ servicio.idServicio }}">
+                                        <i class="bx bx-edit"></i> Editar
+                                    </button>
+                                    <button class="btn btn-outline-danger btnEliminar" data-servicio-id="{{ servicio.idServicio }}">
+                                        <i class="bx bx-delete"></i> Eliminar
+                                    </button>
                                     </td>
                                 </tr>
                                 {% endfor %}

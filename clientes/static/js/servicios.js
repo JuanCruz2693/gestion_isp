@@ -61,6 +61,60 @@ $(document).ready(function () {
 });
 
 
+$(document).on("click", ".btnEliminar", function () {
+    // Obtén el ID del servicio desde el botón de eliminar
+    var servicioId = $(this).closest("tr").find("td:first").text();
+
+    // Confirma la eliminación con un cuadro de diálogo
+    Swal.fire({
+        title: "¿Estás seguro?",
+        text: "Esta acción eliminará el servicio seleccionado.",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonColor: "#d33",
+        cancelButtonColor: "#3085d6",
+        confirmButtonText: "Sí, eliminar",
+        cancelButtonText: "Cancelar"
+    }).then((result) => {
+        if (result.isConfirmed) {
+            // Envía una solicitud AJAX para eliminar el servicio
+            $.ajax({
+                type: "POST",
+                url: "http://127.0.0.1:8000/eliminar_servicio/" + servicioId + "/",
+                data: $(this).serialize(),
+                dataType: "json",
+                success: function (response) {
+                    if (response.success) {
+                        // Recargar la tabla de servicios o actualizar la vista
+                        $('#Servicios').DataTable().ajax.reload();
+                    } else {
+                        // Mostrar un mensaje de error
+                        Swal.fire(
+                            "Error",
+                            response.error,
+                            "error"
+                        );
+                    }
+                },
+                error: function (error) {
+                    console.log("Error:", error);
+                }
+            });            
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
 $(document).on("click", ".btnEditar", function () {
     // Obtener los valores del servicio que se va a editar
     var servicioId = $(this).data("servicio-id");
@@ -74,17 +128,23 @@ $(document).on("click", ".btnEditar", function () {
     $("#formEdicion #tipo_plan").val(tipoPlan);
     $("#formEdicion #cantidad_megas").val(cantidadMegas);
 
-    $("#titulo-edicion").text("Editar Servicio");
+    $("#modalEdicionServicioLabel").text("Editar Servicio");
     $("#btnSubmit").text("Guardar");
-    $("#modal-edicion-crud").modal("show");
+    $("#modalEdicionServicio").modal("show");
+});
 
-    // Controlador de eventos para el formulario de edición
-    $("#formEdicion").on("submit", function (event) {
-        event.preventDefault();
+// Controlador de eventos para el formulario de edición
+$("#formEdicion").on("submit", function (event) {
+    event.preventDefault();
 
+    // Obtener el valor del campo de ID
+    var servicioId = $("#form-edicion-id").val();
+
+    // Comprobar si el ID es válido antes de enviar la solicitud
+    if (servicioId) {
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:8000/servicios/",
+            url: "http://127.0.0.1:8000/editar_servicio/" + servicioId + "/",
             data: $(this).serialize(),
             success: function (response) {
                 console.log(response);
@@ -93,8 +153,14 @@ $(document).on("click", ".btnEditar", function () {
                     response.success,
                     "success"
                 );
-                $("#modal-edicion-crud").modal("hide");
+                $("#modalEdicionServicio").modal("hide");
+            },
+            error: function (error) {
+                console.log("Error:", error);
             }
         });
-    });
+    } else {
+        // Manejar el caso en el que el ID no es válido
+        console.log("ID de servicio no válido");
+    }
 });
