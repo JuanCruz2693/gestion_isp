@@ -76,6 +76,8 @@
 
     <link rel="stylesheet" href="{% static 'css/servicios.css' %}">
 
+    <link rel="stylesheet" href="{% static 'css/zonas.css' %}">
+
 
     <!--crsf token-->
     <meta name="csrf-token" content="{% csrf_token %}">
@@ -146,8 +148,15 @@
 
                     <li class="nav-link">
                         <a href="{% url 'servicios' %}">
-                            <i class='bx bx-pie-chart-alt icon'></i>
+                            <i class='bx bx-dollar icon'></i>
                             <span class="text nav-text">Planes</span>
+                        </a>
+                    </li>
+                    
+                    <li class="nav-link">
+                        <a href="{% url 'zonas' %}">
+                            <i class='bx bx-map icon' ></i>
+                            <span class="text nav-text">Zonas</span>
                         </a>
                     </li>
 
@@ -158,12 +167,6 @@
                         </a>
                     </li>
 
-                    <!--<li class="nav-link">
-                        <a href="#">
-                            <i class='bx bx-cog icon' ></i>
-                            <span class="text nav-text">Ajustes</span>
-                        </a>
-                    </li>-->
                 </ul>
                 <ul class="search-box">
                 </ul>

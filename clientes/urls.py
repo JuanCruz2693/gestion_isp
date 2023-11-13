@@ -16,4 +16,9 @@ urlpatterns = [
     path('servicios/', views.servicios, name='servicios'),
     path('eliminar_servicio/<int:servicio_id>/', views.eliminar_servicio, name='eliminar_servicio'),
     path('editar_servicio/<int:servicio_id>/', views.editar_servicio, name='editar_servicio'),
+    path('zonas/', views.zonas, name='zonas'),
+    path('cargar_zonas/', views.cargar_zonas, name='cargar_zonas'),
+    path('editar_zona/', views.editar_zona, name='editar_zona'),
+    path('cargar_zona/<int:zona_id>/', views.cargar_zona, name='cargar_zona'),
+    path('eliminar_zona/<int:zona_id>/', views.eliminar_zona, name='eliminar_zona'),
 ]

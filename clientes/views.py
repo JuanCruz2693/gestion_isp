@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm
+from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm, ZonasForm
 from .models import Servicio, Zona, Cliente, Deuda, ClienteDeuda
 from django.http.response import JsonResponse
 from django.contrib.auth import authenticate, login, logout
@@ -194,11 +194,13 @@ def eliminar_servicio(request, servicio_id):
     try:
         servicio = Servicio.objects.get(idServicio=servicio_id)
         servicio.delete()
-        return redirect ("servicios")
+        return redirect("servicios")
     except Servicio.DoesNotExist:
         return JsonResponse({"error": "El servicio no existe."})
     except Exception as e:
-        return JsonResponse({"error": "Ha ocurrido un error al eliminar el servicio: " + str(e)})
+        return JsonResponse(
+            {"error": "Ha ocurrido un error al eliminar el servicio: " + str(e)}
+        )
 
 
 @csrf_exempt
@@ -211,3 +213,77 @@ def editar_servicio(request,servicio_id):
         return JsonResponse({"success": "Servicio editado con éxito"})
     print(formulario.errors)
     return JsonResponse({"error": "Error al editar el servicio"})
+
+
+def zonas(request):
+    form_zonas = ZonasForm()
+
+    if request.method == "POST":
+        form_zonas = ZonasForm(request.POST or None)
+
+        if form_zonas.is_valid():
+            nombre = form_zonas.cleaned_data["nombre"]
+
+            zona = Zona(nombre=nombre)
+            zona.save()
+
+            return JsonResponse({"success": "Zona guardada con éxito"})
+
+    else:
+        zonas = Zona.objects.all()
+
+    return render(request, "zonas.html", {"form_zonas": form_zonas, "zonas": zonas})
+
+
+def cargar_zonas(request):
+    zonas = Zona.objects.all()
+    data = []
+
+    for zona in zonas:
+        zona_data = {
+            "id": zona.id,
+            "nombre": zona.nombre,
+        }
+        data.append(zona_data)
+
+    return JsonResponse({"zonas": data})
+
+
+def eliminar_zona(request, zona_id):
+    zona = get_object_or_404(Zona, pk=zona_id)
+
+    try:
+        zona.delete()
+        return JsonResponse({"success": "Zona eliminada correctamente."})
+    except Exception as e:
+        return JsonResponse(
+            {"error": f"Error al eliminar la zona: {str(e)}"}, status=500
+        )
+
+
+def editar_zona(request):
+    if request.method == "POST":
+        zona_id = request.POST.get("id")
+        zona = get_object_or_404(Zona, pk=zona_id)
+
+        # Actualiza los campos de la zona con los valores del formulario
+        zona.nombre = request.POST.get("nombre")
+        # Otros campos...
+
+        zona.save()
+
+        return JsonResponse({"success": "Zona editada correctamente."})
+    else:
+        return JsonResponse({"error": "Método no permitido."}, status=405)
+
+
+def cargar_zona(request, zona_id):
+    zona = get_object_or_404(Zona, pk=zona_id)
+
+    zona_data = {
+        "id": zona.id,
+        "nombre": zona.nombre,
+        # Otros campos...
+    }
+
+    return JsonResponse(zona_data)

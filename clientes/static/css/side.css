@@ -188,7 +188,7 @@ body.dark .sidebar header .toggle {
 
 /* Estilos del menú dentro del sidebar */
 .sidebar .menu {
-    margin-top: 40px;
+    margin-top: 5px;
 }
 
 /* Estilos de enlaces en el menú del sidebar */
@@ -224,7 +224,7 @@ body.dark .sidebar li a:hover .text {
 
 /* Estilos del menú en el sidebar */
 .sidebar .menu-bar {
-    height: calc(100% - 55px);
+    height: calc(100% - 45px);
     display: flex;
     flex-direction: column;
     justify-content: space-between;

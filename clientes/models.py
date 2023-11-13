@@ -4,7 +4,7 @@ import datetime
 
 # Create your models here.
 class Zona(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
 
     def __str__(self):
