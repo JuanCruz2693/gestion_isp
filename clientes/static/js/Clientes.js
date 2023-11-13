@@ -75,7 +75,7 @@ $(document).on("click", ".btnInfo", function () {
             $("#zona-i").text(cliente.zona__nombre);
             var deudaInfo = "";
             cliente.deudas.forEach(deuda => {
-                deudaInfo += "$" + deuda.monto + " Mes: " + deuda.mes_deuda +  "<br>";
+                deudaInfo += "$" + deuda.monto + " Mes: " + deuda.mes_deuda + "<br>";
             });
             $("#deuda-i").html(deudaInfo);
 
@@ -148,13 +148,13 @@ $(document).on("click", "#btnEditar", function () {
                 url: "http://127.0.0.1:8000/editar/",
                 data: $(this).serialize(),
                 success: function (response) {
-                    console.log(response)
                     Swal.fire(
                         'Perfecto!',
                         response.success,
                         'success'
                     )
                     $("#modal-edicion-crud").modal("hide")
+                    actualizarTabla()
                     $("#modal-info").modal("hide")
                 }
             })
@@ -287,7 +287,7 @@ const initDataTable = async () => {
             "targets": 4,
             "data": null,
             //se agrego el boton registrar el pago
-            "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-outline-info btnInfo'><i class='bx bx-plus-circle'></i></button><button class='btn btn-outline-success btnRegistrarPago'><i class='bx bx-dollar-circle'></i></button></div></div>"
+            "defaultContent": "<div class='text-center'><div class='btn-group'><button class='btn btn-outline-info btnInfo'><i class='bx bx-plus-circle'></i></button><button id='btnPago' class='btn btn-outline-success btnRegistrarPago'><i class='bx bx-dollar-circle'></i></button></div></div>"
         }],
         // lenguaje
         "language": {
@@ -325,7 +325,7 @@ const clientes = async () => {
                 <td>${cliente.dni}</td>
                 <td>${cliente.apellido}</td>
                 <td>${cliente.nombre}</td>
-                <td><div class='text-center'><button class='btnMasInfo'>Info</button><button class='btnRegistrarPago'>Pago</button></div></td>
+                <td></td>
             </tr>
             `;
         });
@@ -361,4 +361,46 @@ $(document).ready(function () {
             }
         });
     });
+});
+
+const actualizarTabla = async () => {
+    await clientes();
+    dataTable.clear().rows.add($("#Clientes tbody tr")).draw();
+}
+
+
+$(document).on("click", ".btnRegistrarPago", function () {
+    // Obtén el ID de la fila actual
+    var fila = $(this).closest("tr");
+    var id = fila.find('td:eq(0)').text();
+
+    // Abre el modal
+    $("#modalPago").modal("show");
+
+    // Asocia el clic al botón dentro del modal
+    $("#btnPagar").off("click").on("click", function () {
+        // Obtiene los datos del formulario y agrega el ID del cliente
+        var formData = $("#form-pago").serialize();
+        formData += "&cliente_id=" + id;
+
+        // Realiza la solicitud AJAX
+        $.ajax({
+            type: "POST",
+            url: "http://127.0.0.1:8000/pagar_deuda/",
+            data: formData,
+            success: function (response) {
+                console.log(response);
+                $("#modalPago").modal("hide");
+            },
+            error: function (error) {
+                console.log(error)
+            }
+        });
+    });
+});
+
+
+
+$(document).ready(function () {
+    $('#año').val(new Date().getFullYear());
 });

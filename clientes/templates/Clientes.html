@@ -163,6 +163,52 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="modalPago" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar pago</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="form-pago">
+                    <div class="mb-3">
+                        <label for=",es" class="col-form-label">Mes:</label>
+                        <select class="form-control" id="mes" name="mes">
+                            <option value="Enero">Enero</option>
+                            <option value="Febrero">Febrero</option>
+                            <option value="Marzo">Marzo</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Mayo">Mayo</option>
+                            <option value="Junio">Junio</option>
+                            <option value="Julio">Julio</option>
+                            <option value="Agosto">Agosto</option>
+                            <option value="Septiembre">Septiembre</option>
+                            <option value="Octubre">Octubre</option>
+                            <option value="Noviembre">Noviembre</option>
+                            <option value="Diciembre">Diciembre</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="año" class="col-form-label">Año:</label>
+                        <input type="text" class="form-control" id="año" name="año" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label for="monto" class="col-form-label">Monto $:</label>
+                        <input type="text" class="form-control" id="monto" name="monto">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnPagar">Registrar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 </section>
 
 <!-- jQuery -->

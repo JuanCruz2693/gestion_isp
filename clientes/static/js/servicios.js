@@ -107,26 +107,18 @@ $(document).on("click", ".btnEliminar", function () {
 
 
 
-
-
-
-
-
-
-
-
 $(document).on("click", ".btnEditar", function () {
     // Obtener los valores del servicio que se va a editar
-    var servicioId = $(this).data("servicio-id");
+    var servicioId = $(this).closest("tr").find("td:first").text();
     var monto = $(this).closest("tr").find("td:eq(1)").text().trim();
     var tipoPlan = $(this).closest("tr").find("td:eq(2)").text().trim();
     var cantidadMegas = $(this).closest("tr").find("td:eq(3)").text().trim();
 
     // Llenar el formulario de edición con los valores obtenidos
     $("#formEdicion #form-edicion-id").val(servicioId);
-    $("#formEdicion #monto").val(monto);
-    $("#formEdicion #tipo_plan").val(tipoPlan);
-    $("#formEdicion #cantidad_megas").val(cantidadMegas);
+    $("#formEdicion #id_monto").val(monto);
+    $("#formEdicion #id_tipo_plan").val(tipoPlan);
+    $("#formEdicion #id_cantidad_megas").val(cantidadMegas);
 
     $("#modalEdicionServicioLabel").text("Editar Servicio");
     $("#btnSubmit").text("Guardar");
@@ -136,7 +128,6 @@ $(document).on("click", ".btnEditar", function () {
 // Controlador de eventos para el formulario de edición
 $("#formEdicion").on("submit", function (event) {
     event.preventDefault();
-
     // Obtener el valor del campo de ID
     var servicioId = $("#form-edicion-id").val();
 
@@ -154,6 +145,7 @@ $("#formEdicion").on("submit", function (event) {
                     "success"
                 );
                 $("#modalEdicionServicio").modal("hide");
+                $('#Servicios').DataTable().ajax.reload();
             },
             error: function (error) {
                 console.log("Error:", error);
