@@ -161,6 +161,10 @@ form.sign-in-form {
   grid-template-columns: repeat(2, 1fr);
 }
 
+.container {
+  position: relative;
+}
+
 .container:before {
   content: "";
   position: absolute;
@@ -173,6 +177,20 @@ form.sign-in-form {
   transition: 1.8s ease-in-out;
   border-radius: 50%;
   z-index: 6;
+}
+
+.container .circle-image {
+  position: absolute;
+  top: 40%; /* Ajusta la posición vertical (más arriba o más abajo) */
+  right: 67%; /* Ajusta la posición horizontal (más a la derecha o más a la izquierda) */
+  transform: translateY(-50%);
+  height: 167px;
+  width: 295px;
+  background-image: url('/clientes/static/css/Imagen/Logo.png'); /* Ruta de tu imagen */
+  background-size: cover;
+  background-position: center;
+  border-radius: 50%;
+  z-index: 7; /* Asegura que la imagen esté por encima del fondo de gradiente */
 }
 
 .recover-password {
