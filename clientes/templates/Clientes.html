@@ -25,7 +25,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form method="post">
+                    <form method="post" id="form-generar">
                         {% csrf_token %}
                         <div class="mb-3">
                             <label for="{{ form_deuda.mes_deuda.id_for_label }}">Mes de Deuda:</label>
@@ -167,7 +167,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h1 class="modal-title fs-5" id="exampleModalLabel">Registrar pago</h1>
+                <h1 class="modal-title fs-5" id="tituloPago">Registrar pago</h1>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">

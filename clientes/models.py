@@ -44,10 +44,15 @@ class Deuda(models.Model):
     ]
     mes_deuda = models.CharField(max_length=20, choices=MES)
     año_deuda = models.IntegerField()
-
+    
     def __str__(self) -> str:
         return ("mes : " + self.mes_deuda +
                 " año : " + str(self.año_deuda))
+
+    class Meta:
+        unique_together = ('mes_deuda', 'año_deuda')
+
+
 
 class Cliente(models.Model):
     dni = models.CharField(max_length=10,unique=True)

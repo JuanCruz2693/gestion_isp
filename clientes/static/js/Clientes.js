@@ -341,6 +341,7 @@ window.addEventListener('load', async () => {
 //generar deuda
 $(document).ready(function () {
     $('#generarDeuda').click(function () {
+        $("#form-generar").trigger("reset");
         var mesDeuda = $('#id_mes_deuda').val();
         var añoDeuda = $('#id_año_deuda').val();
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
@@ -353,8 +354,14 @@ $(document).ready(function () {
                 'csrfmiddlewaretoken': csrfToken
             },
             dataType: 'json',
-            success: function (data) {
+            success: function (response) {
                 console.log('Deuda generada exitosamente.');
+                Swal.fire(
+                    'Perfecto!',
+                    response.success,
+                    'success'
+                )
+                $("#deudaModal").modal("hide")
             },
             error: function (data) {
                 console.log('Error al procesar el formulario.');
@@ -373,10 +380,12 @@ $(document).on("click", ".btnRegistrarPago", function () {
     // Obtén el ID de la fila actual
     var fila = $(this).closest("tr");
     var id = fila.find('td:eq(0)').text();
-
+    var nombre = fila.find('td:eq(2)').text();
+    var apellido = fila.find('td:eq(3)').text();
+    
     // Abre el modal
+    $("#tituloPago").text("Registrar pago de " + nombre + " " + apellido);
     $("#modalPago").modal("show");
-
     // Asocia el clic al botón dentro del modal
     $("#btnPagar").off("click").on("click", function () {
         // Obtiene los datos del formulario y agrega el ID del cliente
@@ -391,9 +400,15 @@ $(document).on("click", ".btnRegistrarPago", function () {
             success: function (response) {
                 console.log(response);
                 $("#modalPago").modal("hide");
+                Swal.fire(
+                    'Perfecto!',
+                    response.message,
+                    'success'
+                )
             },
             error: function (error) {
                 console.log(error)
+                
             }
         });
     });
@@ -403,4 +418,5 @@ $(document).on("click", ".btnRegistrarPago", function () {
 
 $(document).ready(function () {
     $('#año').val(new Date().getFullYear());
+    $('#id_año_deuda').val(new Date().getFullYear());
 });
