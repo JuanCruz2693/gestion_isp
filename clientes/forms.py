@@ -46,8 +46,13 @@ class DeudaForm(forms.ModelForm):
 class ServiciosForm(forms.ModelForm):
     class Meta:
         model = Servicio
-        fields = ['monto', 'tipo_plan', 'cantidad_megas']
-        exclude = ['idServicio']
+        fields = ["monto", "tipo_plan", "cantidad_megas"]
+        exclude = ["idServicio"]
+
+    def __init__(self, *args, **kwargs):
+        super(ServiciosForm, self).__init__(*args, **kwargs)
+        for field in self.fields:
+            self.fields[field].widget.attrs.update({"class": "form-control"})
 
 class ZonasForm(forms.ModelForm):
     class Meta:
