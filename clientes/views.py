@@ -5,7 +5,7 @@ from django.http.response import JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
-
+from decimal import Decimal
 
 # Create your views here.
 
@@ -44,14 +44,12 @@ def home(request):
 
 
 def cargar_clientes(request):
-    clientes_deudas = ClienteDeuda.objects.select_related("cliente", "deuda")
+    clientes = Cliente.objects.all()
     data = []
-    processed_client_ids = set()
-    for cliente_deuda in clientes_deudas:
-        cliente = cliente_deuda.cliente
-        if cliente.id not in processed_client_ids:
-            deudas_data = []
-            for cd in ClienteDeuda.objects.filter(cliente=cliente):
+    for cliente in clientes:
+        deudas_data = []
+        for cd in cliente.clientedeuda_set.all():
+            if not cd.pagado:
                 deuda_info = {
                     "mes_deuda": cd.deuda.mes_deuda,
                     "año_deuda": cd.deuda.año_deuda,
@@ -62,25 +60,25 @@ def cargar_clientes(request):
                 }
                 deudas_data.append(deuda_info)
 
-            cliente_data = {
-                "id": cliente.id,
-                "dni": cliente.dni,
-                "apellido": cliente.apellido,
-                "nombre": cliente.nombre,
-                "direccion": cliente.direccion,
-                "telefono": cliente.telefono,
-                "estado": cliente.estado,
-                "router": cliente.router,
-                "n_serie": cliente.n_serie,
-                "observaciones": cliente.observaciones,
-                "fecha_alta": cliente.fecha_alta,
-                "servicio__tipo_plan": cliente.servicio.tipo_plan,
-                "servicio__monto": cliente.servicio.monto,
-                "zona__nombre": cliente.zona.nombre,
-                "deudas": deudas_data,
-            }
-            data.append(cliente_data)
-            processed_client_ids.add(cliente.id)
+        cliente_data = {
+            "id": cliente.id,
+            "dni": cliente.dni,
+            "apellido": cliente.apellido,
+            "nombre": cliente.nombre,
+            "direccion": cliente.direccion,
+            "telefono": cliente.telefono,
+            "estado": cliente.estado,
+            "router": cliente.router,
+            "n_serie": cliente.n_serie,
+            "observaciones": cliente.observaciones,
+            "fecha_alta": cliente.fecha_alta,
+            "servicio__tipo_plan": cliente.servicio.tipo_plan,
+            "servicio__monto": cliente.servicio.monto,
+            "zona__nombre": cliente.zona.nombre,
+            "deudas": deudas_data,
+        }
+        data.append(cliente_data)
+
     return JsonResponse({"clientes": data})
 
 
@@ -92,7 +90,10 @@ def registrar(request):
     zonas = Zona.objects.all()
     if formulario.is_valid():
         formulario.save()
+        print("todo esta bien")
         return JsonResponse({"success": "Cliente guardado con exito"}, status=200)
+    else:
+        print(formulario.errors)
     contexto = {
         "formulario": formulario,
         "servicios": servicios,
@@ -155,6 +156,38 @@ def generar_deuda(request):
         response_data = {"error": "Error al generar la deuda"}
         return JsonResponse(response_data, status=400)
 
+@csrf_exempt
+def registrar_pago(request):
+    if request.method == 'POST':
+        mes = request.POST.get('mes')
+        año = request.POST.get('año')
+        monto = Decimal(request.POST.get('monto'))
+        cliente_id = request.POST.get('cliente_id')
+        
+        cliente = Cliente.objects.get(id = cliente_id)
+        deuda = cliente.clientedeuda_set.get(deuda__mes_deuda=mes, deuda__año_deuda=año)
+
+        deuda.monto_pagado = monto
+        if monto == deuda.monto:
+            deuda.pagado = True
+        deuda.monto = deuda.monto - monto
+        
+        deuda.save()
+        response_data = {'message': 'Pago realizado con exito'}
+        return JsonResponse(response_data,status=200)
+    else:
+        response_data = {'error': 'metodo no permitido'}
+        return JsonResponse(response_data, status=405)
+
+
+
+
+
+
+
+
+
+
 
 def servicios(request):
     form_servicios = ServiciosForm()
@@ -205,12 +238,13 @@ def eliminar_servicio(request, servicio_id):
 
 @csrf_exempt
 def editar_servicio(request,servicio_id):
-    servicio_id = request.POST.get("form-edicion-id")
+    servicio_id = request.POST.get("id")
     servicio = Servicio.objects.get(idServicio=servicio_id)
     formulario = ServiciosForm(request.POST, instance=servicio)
     if formulario.is_valid():
         formulario.save()
-        return JsonResponse({"success": "Servicio editado con éxito"})
+        response_data = {"success": "Servicio editado con éxito"}
+        return JsonResponse(response_data, status=200)
     print(formulario.errors)
     return JsonResponse({"error": "Error al editar el servicio"})
 

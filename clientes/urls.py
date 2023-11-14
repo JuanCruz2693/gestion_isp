@@ -13,6 +13,7 @@ urlpatterns = [
     path('suspender/<int:id>/', views.suspender_cliente, name='suspender_cliente'),
     path('users/logout/', views.logout_view, name='logout'),
     path('generar_deuda/', views.generar_deuda, name='generar_deuda'),
+    path('pagar_deuda/', views.registrar_pago, name='pagar'),
     path('servicios/', views.servicios, name='servicios'),
     path('eliminar_servicio/<int:servicio_id>/', views.eliminar_servicio, name='eliminar_servicio'),
     path('editar_servicio/<int:servicio_id>/', views.editar_servicio, name='editar_servicio'),
