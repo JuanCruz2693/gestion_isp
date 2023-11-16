@@ -6,6 +6,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from decimal import Decimal
+import datetime
 
 # Create your views here.
 
@@ -42,7 +43,7 @@ def home(request):
     clientes = Cliente.objects.count()
     return render(request, "home.html", {"clientes": clientes})
 
-
+#Esta Funcion carga el total de clientes para enviarlos al Template
 def cargar_clientes(request):
     clientes = Cliente.objects.all()
     data = []
@@ -81,7 +82,7 @@ def cargar_clientes(request):
 
     return JsonResponse({"clientes": data})
 
-
+#Esta funcion registra los clientes y persiste los datos
 @login_required(login_url="login")
 def registrar(request):
     form_deuda = DeudaForm(request.POST or None)
@@ -102,7 +103,7 @@ def registrar(request):
     }
     return render(request, "Clientes.html", contexto)
 
-
+#Editar clientes
 def editar(request):
     id = request.POST.get("form-edicion-id")
     cliente = Cliente.objects.get(id=id)
@@ -147,9 +148,10 @@ def generar_deuda(request):
         deuda = Deuda(mes_deuda=mes, año_deuda=año)
         deuda.save()
         for cliente in clientes:
-            cliente.deudas.add(
-                deuda, through_defaults={"monto": cliente.servicio.monto}
-            )
+            if cliente.estado == 'A':
+                cliente.deudas.add(
+                    deuda, through_defaults={"monto": cliente.servicio.monto}
+                )
         response_data = {"success": "Deuda generada exitosamente"}
         return JsonResponse(response_data, status=200)
     else:
@@ -164,15 +166,17 @@ def registrar_pago(request):
         año = request.POST.get('año')
         monto = Decimal(request.POST.get('monto'))
         cliente_id = request.POST.get('cliente_id')
-        
         cliente = Cliente.objects.get(id = cliente_id)
         deuda = cliente.clientedeuda_set.get(deuda__mes_deuda=mes, deuda__año_deuda=año)
-
-        deuda.monto_pagado = monto
+        if deuda.monto_pagado is not None:
+            deuda.monto_pagado = deuda.monto_pagado + monto
+        else:
+            deuda.monto_pagado = monto
         if monto == deuda.monto:
             deuda.pagado = True
+            deuda.fecha_pago = datetime.datetime.now()
         deuda.monto = deuda.monto - monto
-
+        
         deuda.save()
         response_data = {'message': 'Pago realizado con exito'}
         return JsonResponse(response_data,status=200)
@@ -183,30 +187,24 @@ def registrar_pago(request):
 
 def servicios(request):
     form_servicios = ServiciosForm()
-
     if request.method == "POST":
         form_servicios = ServiciosForm(request.POST or None)
-
         if form_servicios.is_valid():
             monto = form_servicios.cleaned_data["monto"]
             tipo_plan = form_servicios.cleaned_data["tipo_plan"]
             cantidad_megas = form_servicios.cleaned_data["cantidad_megas"]
-
             servicio = Servicio(
                 monto=monto, tipo_plan=tipo_plan, cantidad_megas=cantidad_megas
             )
             servicio.save()
-
             servicio_data = {
                 "monto": servicio.monto,
                 "tipo_plan": servicio.tipo_plan,
                 "cantidad_megas": servicio.cantidad_megas,
             }
-
             return redirect("servicios")
     else:
         servicios = Servicio.objects.all()
-
     return render(
         request,
         "servicios.html",
@@ -258,32 +256,25 @@ def zonas(request):
 
     if request.method == "POST":
         form_zonas = ZonasForm(request.POST or None)
-
         if form_zonas.is_valid():
             nombre = form_zonas.cleaned_data["nombre"]
-
             zona = Zona(nombre=nombre)
             zona.save()
-
             return JsonResponse({"success": "Zona guardada con éxito"})
-
     else:
         zonas = Zona.objects.all()
-
     return render(request, "zonas.html", {"form_zonas": form_zonas, "zonas": zonas})
 
 
 def cargar_zonas(request):
     zonas = Zona.objects.all()
     data = []
-
     for zona in zonas:
         zona_data = {
             "id": zona.id,
             "nombre": zona.nombre,
         }
         data.append(zona_data)
-
     return JsonResponse({"zonas": data})
 
 
@@ -303,11 +294,8 @@ def editar_zona(request):
     if request.method == "POST":
         zona_id = request.POST.get("id")
         zona = get_object_or_404(Zona, pk=zona_id)
-
         zona.nombre = request.POST.get("nombre")
-
         zona.save()
-
         return JsonResponse({"success": "Zona editada correctamente."})
     else:
         return JsonResponse({"error": "Método no permitido."}, status=405)
@@ -315,7 +303,5 @@ def editar_zona(request):
 
 def cargar_zona(request, zona_id):
     zona = get_object_or_404(Zona, pk=zona_id)
-
     zona_data = {"id": zona.id,"nombre": zona.nombre,}
-
     return JsonResponse(zona_data)

@@ -2,8 +2,8 @@
 {% load static %}
 {% block title %}Servicios{% endblock %}
 {% block title_1 %}
-<i class='bx bx-pie-chart-alt icon'></i>
-<span class="text nav-text p-1">Servicios</span>
+<i class='bx bx-dollar icon'></i>
+<span class="text nav-text p-1">Planes</span>
 {% endblock %}
 {% block content %}
 
@@ -30,12 +30,7 @@
                                 </tr>
                             </thead>
                             <tbody id="tablaServicios">
-                                {% for servicio in servicios %}
                                 <tr>
-                                    <td>{{ servicio.idServicio }}</td>
-                                    <td>${{ servicio.monto }}</td>
-                                    <td>{{ servicio.tipo_plan }}</td>
-                                    <td>{{ servicio.cantidad_megas }}</td>
                                     <td><button class="btn btn-outline-primary btnEditar" data-servicio-id="{{ servicio.idServicio }}">
                                         <i class="bx bx-edit"></i> Editar
                                     </button>
@@ -44,7 +39,6 @@
                                     </button>
                                     </td>
                                 </tr>
-                                {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -63,7 +57,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form method="post" class="form-group">
+                <form method="post" class="form-group" id="formServicios">
                     {% csrf_token %}
                     {{ form_servicios.as_p }}
                     <div class="modal-footer">

@@ -341,7 +341,6 @@ window.addEventListener('load', async () => {
 //generar deuda
 $(document).ready(function () {
     $('#generarDeuda').click(function () {
-        $("#form-generar").trigger("reset");
         var mesDeuda = $('#id_mes_deuda').val();
         var añoDeuda = $('#id_año_deuda').val();
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();

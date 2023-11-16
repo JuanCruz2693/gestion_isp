@@ -66,7 +66,6 @@ const servicios = async () => {
 $(document).ready(function () {
     $("#formServicios").on("submit", function (event) {
         event.preventDefault();
-
         $.ajax({
             type: "POST",
             url: "http://127.0.0.1:8000/servicios/",
@@ -77,12 +76,8 @@ $(document).ready(function () {
                     response.message,
                     'success'
                 );
-                // No redirigir a una nueva página
-                // window.location.href = "http://127.0.0.1:8000/servicios/";
-
-                // En su lugar, cargar y mostrar los servicios actualizados en la tabla DataTables
-                cargarYMostrarServicios();
                 $("#modalNuevoServicio").modal("hide");
+                cargarYMostrarServicios();
             },
             error: function (error) {
                 console.log("Error:", error);

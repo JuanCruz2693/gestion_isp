@@ -76,7 +76,6 @@ const zonas = async () => {
             cargarDatosZona(zonaId);
         });
         
-                      
 
         $(".btnEliminar").click(function () {
             const zonaId = $(this).data("id");
