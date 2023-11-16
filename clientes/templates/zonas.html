@@ -71,19 +71,33 @@
             <form id="formEdicionZona" method="post">
                 {% csrf_token %}
                 <input type="hidden" id="form-edicion-id" name="id" />
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required />
-                <!-- Otros campos... -->
-            
+
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="latitud">Latitud:</label>
+                        <input type="text" class="form-control" id="latitud" name="latitud" required />
+                    </div>
+
+                    <div class="form-group">
+                        <label for="longitud">Longitud:</label>
+                        <input type="text" class="form-control" id="longitud" name="longitud" required />
+                    </div>
+                </div>
+
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                     <button type="submit" id="btnGuardarEdicionZona" class="btn btn-success">Guardar</button>
                 </div>
             </form>
-            
         </div>
     </div>
 </div>
+
 
 
 <!-- jQuery -->
