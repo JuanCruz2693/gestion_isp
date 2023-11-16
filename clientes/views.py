@@ -261,8 +261,10 @@ def zonas(request):
 
         if form_zonas.is_valid():
             nombre = form_zonas.cleaned_data["nombre"]
+            latitud = form_zonas.cleaned_data["latitud"]
+            longitud = form_zonas.cleaned_data["longitud"]
 
-            zona = Zona(nombre=nombre)
+            zona = Zona(nombre=nombre, latitud=latitud, longitud=longitud)
             zona.save()
 
             return JsonResponse({"success": "Zona guardada con éxito"})
@@ -275,16 +277,16 @@ def zonas(request):
 
 def cargar_zonas(request):
     zonas = Zona.objects.all()
-    data = []
-
-    for zona in zonas:
-        zona_data = {
+    zonas_data = [
+        {
             "id": zona.id,
             "nombre": zona.nombre,
+            "latitud": str(zona.latitud),  # Convertir a str para JSON
+            "longitud": str(zona.longitud),
         }
-        data.append(zona_data)
-
-    return JsonResponse({"zonas": data})
+        for zona in zonas
+    ]
+    return JsonResponse({"zonas": zonas_data})
 
 
 def eliminar_zona(request, zona_id):
@@ -305,6 +307,8 @@ def editar_zona(request):
         zona = get_object_or_404(Zona, pk=zona_id)
 
         zona.nombre = request.POST.get("nombre")
+        zona.latitud = request.POST.get("latitud")
+        zona.longitud = request.POST.get("longitud")
 
         zona.save()
 
@@ -316,6 +320,12 @@ def editar_zona(request):
 def cargar_zona(request, zona_id):
     zona = get_object_or_404(Zona, pk=zona_id)
 
-    zona_data = {"id": zona.id,"nombre": zona.nombre,}
+    zona_data = {
+        "id": zona.id,
+        "nombre": zona.nombre,
+        "latitud": str(zona.latitud),
+        "longitud": str(zona.longitud),
+    }
 
     return JsonResponse(zona_data)
+

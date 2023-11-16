@@ -190,7 +190,8 @@ const cargarDatosZona = async (zonaId) => {
         // Llenar el modal de edición con los valores obtenidos
         $("#formEdicionZona #form-edicion-id").val(zona.id);
         $("#formEdicionZona #nombre").val(zona.nombre);
-        // Otros campos...
+        $("#formEdicionZona #latitud").val(zona.latitud);
+        $("#formEdicionZona #longitud").val(zona.longitud);
 
         $("#titulo-edicion-zona").text("Editar Zona");
         $("#btnGuardarEdicionZona").text("Guardar");

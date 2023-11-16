@@ -6,6 +6,8 @@ import datetime
 class Zona(models.Model):
     id = models.AutoField(primary_key=True)
     nombre = models.CharField(max_length=50)
+    latitud = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)  # Puedes ajustar el valor predeterminado según tus necesidades
+    longitud = models.DecimalField(max_digits=9, decimal_places=6, default=0.0)
 
     def __str__(self):
         return self.nombre

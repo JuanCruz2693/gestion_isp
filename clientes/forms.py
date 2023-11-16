@@ -57,4 +57,4 @@ class ServiciosForm(forms.ModelForm):
 class ZonasForm(forms.ModelForm):
     class Meta:
         model = Zona
-        fields =['nombre']
+        fields = ['nombre', 'latitud', 'longitud']
