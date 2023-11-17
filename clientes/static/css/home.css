@@ -34,8 +34,9 @@
 }
 
 #map {
-    height: 500px;
-    width: 1000px;
+    height: 300px;
+    width: 800px;
     margin: 0 auto; /* Esto centrará el mapa horizontalmente */
+    margin-bottom: 50px;
     display: block; /* Esto asegura que ocupe el ancho especificado y no se extienda más allá */
 }

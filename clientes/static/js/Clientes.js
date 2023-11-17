@@ -75,7 +75,9 @@ $(document).on("click", ".btnInfo", function () {
             $("#zona-i").text(cliente.zona__nombre);
             var deudaInfo = "";
             cliente.deudas.forEach(deuda => {
-                deudaInfo += "$" + deuda.monto + " Mes: " + deuda.mes_deuda + "<br>";
+                if (deuda.pagado == false) {
+                    deudaInfo += "$" + deuda.monto + " Mes: " + deuda.mes_deuda + "<br>";
+                }
             });
             $("#deuda-i").html(deudaInfo);
 
@@ -378,41 +380,108 @@ const actualizarTabla = async () => {
 $(document).on("click", ".btnRegistrarPago", function () {
     // Obtén el ID de la fila actual
     var fila = $(this).closest("tr");
-    var id = fila.find('td:eq(0)').text();
+    var idCliente = fila.find('td:eq(0)').text();
     var nombre = fila.find('td:eq(2)').text();
     var apellido = fila.find('td:eq(3)').text();
-    
-    // Abre el modal
-    $("#tituloPago").text("Registrar pago de " + nombre + " " + apellido);
-    $("#modalPago").modal("show");
-    // Asocia el clic al botón dentro del modal
-    $("#btnPagar").off("click").on("click", function () {
-        // Obtiene los datos del formulario y agrega el ID del cliente
-        var formData = $("#form-pago").serialize();
-        formData += "&cliente_id=" + id;
 
-        // Realiza la solicitud AJAX
-        $.ajax({
-            type: "POST",
-            url: "http://127.0.0.1:8000/pagar_deuda/",
-            data: formData,
-            success: function (response) {
-                console.log(response);
-                $("#modalPago").modal("hide");
-                Swal.fire(
-                    'Perfecto!',
-                    response.message,
-                    'success'
-                )
-            },
-            error: function (error) {
-                console.log(error)
-                
-            }
-        });
-    });
+    // Realiza la solicitud para cargar la información del cliente
+    fetch('http://127.0.0.1:8000/cargar_clientes/')
+        .then(response => response.json())
+        .then(data => {
+            // Encuentra el cliente en los datos cargados
+            var cliente = data.clientes.find(c => c.id === parseInt(idCliente));
+
+            // Construye una cadena con las deudas del cliente
+            var deudas = " ";
+            var primerMesDeuda = null;
+            var monto = 0
+            cliente.deudas.forEach(deuda => {
+                if(!deuda.pagado && primerMesDeuda === null){
+                    primerMesDeuda = deuda.mes_deuda
+                }
+                if(!deuda.pagado){
+                    deudas += deuda.mes_deuda + "<br>" ;
+                    monto = deuda.monto
+                }
+            });
+
+            // Inserta la cadena de deudas en el elemento con id "meses-deuda"
+            $("#meses-deuda").html(deudas);
+            $("#mes").val(primerMesDeuda)
+            $("#monto").val(monto)
+
+            // Abre el modal
+            $("#tituloPago").text("Registrar pago de " + nombre + " " + apellido);
+            $("#modalPago").modal("show");
+
+            // Asocia el clic al botón dentro del modal
+            $("#btnPagar").off("click").on("click", function () {
+                // Obtiene los datos del formulario y agrega el ID del cliente
+                var formData = $("#form-pago").serialize();
+                formData += "&cliente_id=" + idCliente;
+
+                // Realiza la solicitud AJAX
+                $.ajax({
+                    type: "POST",
+                    url: "http://127.0.0.1:8000/pagar_deuda/",
+                    data: formData,
+                    success: function (response) {
+                        console.log(response);
+                        $("#modalPago").modal("hide");
+                        Swal.fire(
+                            'Perfecto!',
+                            response.message,
+                            'success'
+                        );
+                    },
+                    error: function (error) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Oops...",
+                            text: "Algo salio mal",
+                        });
+                    }
+                });
+            });
+        })
+        .catch(error => console.error(error));
 });
 
+
+$(document).on("click", "#btnInfoPagos", function () {
+    idCliente = $("#id-i").text().trim();
+
+    fetch('http://127.0.0.1:8000/cargar_clientes/')
+        .then(response => response.json())
+        .then(data => {
+            var cliente = data.clientes.find(c => c.id === parseInt(idCliente));
+
+            // Limpiar el contenido de la tabla
+            $("#pagos tbody").empty();
+
+            // Llenar la tabla con los datos de pagos
+            cliente.deudas.forEach(deuda => {
+                const estadoIcon = deuda.pagado === true ? '<i class="fas fa-check-circle text-success"></i>' :
+                    deuda.pagado === false ? '<i class="fas fa-times-circle text-danger"></i>' : '';
+
+                $("#pagos tbody").append(`
+                    <tr>
+                        <td class="text-center align-middle">${deuda.mes_deuda}</td>
+                        <td class="text-center align-middle">${estadoIcon}</td>
+                        <td class="text-center align-middle">$ ${deuda.monto_pagado !== null ? deuda.monto_pagado : '0'}</td>
+                        <td class="text-center align-middle">$ ${deuda.monto !== null ? deuda.monto : '0'}</td>
+                        <td class="text-center align-middle">${deuda.fecha_pago !== null ? deuda.fecha_pago : '/'}</td>
+                    </tr>
+                `);
+            });
+
+            // Ocultar el modal de información y mostrar el modal de historial de pagos
+            $("#modal-info").modal("hide");
+            $(".modal-title").text("Pagos realizados");
+            $("#modalHistorialPagos").modal("show");
+        })
+        .catch(error => console.error(error));
+});
 
 
 $(document).ready(function () {

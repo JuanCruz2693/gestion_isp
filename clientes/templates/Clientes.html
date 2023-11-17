@@ -49,8 +49,7 @@
             <div class="table-responsive">
                 <div class="card">
                     <div class="card-body">
-                        <table id="Clientes" class="display"
-                            style="width:100%">
+                        <table id="Clientes" class="display" style="width:100%">
                             <thead>
                                 <tr>
                                     <th>Cod.Cliente</th>
@@ -107,7 +106,8 @@
                 <button type="button" id="btnBaja" class="btn btn-danger">Baja</button>
                 <!-- Boton suspender -->
                 <button type="button" id="btnSuspender" class="btn btn-warning">Suspender</button>
-
+                <!-- Boton para ir a los pagos -->
+                <button type="button" id="btnInfoPagos" class="btn btn-success">Pagos</button>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -171,6 +171,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <p><strong>Meses adeudados:</strong><span id="meses-deuda"></span></p>
                 <form id="form-pago">
                     <div class="mb-3">
                         <label for=",es" class="col-form-label">Mes:</label>
@@ -206,29 +207,61 @@
         </div>
     </div>
 </div>
+<!--Modal de-->
+<div class="modal fade" id="modalHistorialPagos" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-fullscreen-xl " role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title text-info">Pagos</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col">
+                        <table id="pagos" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th scope="col-2">Mes</th>
+                                    <th scope="col-2">Pagado</th>
+                                    <th scope="col-2">Monto</th>
+                                    <th scope="col-2">Debe</th>
+                                    <th scope="col-2">Fecha de pago</th>
+                                </tr>
+                            </thead>
+                            <tbody class="table-group-divider">
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
+    </section>
 
-</section>
+    <!-- jQuery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-<!-- jQuery -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper.js (si es necesario) -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
 
-<!-- Popper.js (si es necesario) -->
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
-    integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
-    crossorigin="anonymous"></script>
+    <!-- sweetalert JS -->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
-<!-- sweetalert JS -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <!-- DataTables JS -->
+    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
-<!-- DataTables JS -->
-<script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-<script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
+    <!--JavaScript propio-->
+    <script src="{% static 'js/Clientes.js' %}"></script>
+    </body>
 
-<!--JavaScript propio-->
-<script src="{% static 'js/Clientes.js' %}"></script>
-</body>
-
-</html>
-{% endblock %}
+    </html>
+    {% endblock %}

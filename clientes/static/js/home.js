@@ -21,7 +21,7 @@ function cargar_zonas() {
 
 function mostrarZonasEnMapa() {
     // Inicializa el mapa
-    const map = L.map('map').setView([-27.9175168, -63.9546055], 6);
+    const map = L.map('map').setView([-27.709872, -63.772636], 12);
 
     // Agrega una capa de mapa de OpenStreetMap
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {

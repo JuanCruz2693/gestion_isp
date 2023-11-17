@@ -41,7 +41,9 @@ def logout_view(request):
 @login_required(login_url="login")
 def home(request):
     clientes = Cliente.objects.count()
-    return render(request, "home.html", {"clientes": clientes})
+    clientes_deudas = ClienteDeuda.objects.filter(pagado=False).values('cliente').distinct().count()
+    clientes_al_dia = ClienteDeuda.objects.filter(pagado=True).values('cliente').distinct().count()
+    return render(request, "home.html", {"clientes": clientes, 'deudores': clientes_deudas, 'alDia': clientes_al_dia})
 
 #Esta Funcion carga el total de clientes para enviarlos al Template
 def cargar_clientes(request):
@@ -50,16 +52,15 @@ def cargar_clientes(request):
     for cliente in clientes:
         deudas_data = []
         for cd in cliente.clientedeuda_set.all():
-            if not cd.pagado:
-                deuda_info = {
-                    "mes_deuda": cd.deuda.mes_deuda,
-                    "año_deuda": cd.deuda.año_deuda,
-                    "fecha_pago": cd.fecha_pago,
-                    "monto_pagado": cd.monto_pagado,
-                    "pagado": cd.pagado,
-                    "monto": cd.monto,
+            deuda_info = {
+                "mes_deuda": cd.deuda.mes_deuda,
+                "año_deuda": cd.deuda.año_deuda,
+                "fecha_pago": cd.fecha_pago,
+                "monto_pagado": cd.monto_pagado,
+                "pagado": cd.pagado,
+                "monto": cd.monto,
                 }
-                deudas_data.append(deuda_info)
+            deudas_data.append(deuda_info)
 
         cliente_data = {
             "id": cliente.id,
@@ -164,25 +165,25 @@ def registrar_pago(request):
     if request.method == 'POST':
         mes = request.POST.get('mes')
         año = request.POST.get('año')
-        monto = Decimal(request.POST.get('monto'))
+        pago = Decimal(request.POST.get('monto'))
         cliente_id = request.POST.get('cliente_id')
         cliente = Cliente.objects.get(id = cliente_id)
         deuda = cliente.clientedeuda_set.get(deuda__mes_deuda=mes, deuda__año_deuda=año)
-        if deuda.monto_pagado is not None:
-            deuda.monto_pagado = deuda.monto_pagado + monto
+        if pago <= deuda.monto:
+            if deuda.monto_pagado is not None:
+                deuda.monto_pagado = deuda.monto_pagado + pago
+            else:
+                deuda.monto_pagado = pago
+            if pago == deuda.monto:
+                deuda.pagado = True
+                deuda.fecha_pago = datetime.datetime.now()
+            deuda.monto = deuda.monto - pago
+            deuda.save()
+            response_data = {'message': 'Pago realizado con exito'}
+            return JsonResponse(response_data,status=200)
         else:
-            deuda.monto_pagado = monto
-        if monto == deuda.monto:
-            deuda.pagado = True
-            deuda.fecha_pago = datetime.datetime.now()
-        deuda.monto = deuda.monto - monto
-        
-        deuda.save()
-        response_data = {'message': 'Pago realizado con exito'}
-        return JsonResponse(response_data,status=200)
-    else:
-        response_data = {'error': 'metodo no permitido'}
-        return JsonResponse(response_data, status=405)
+            response_data = {'error': 'El monto ingresado es mayor al adeudado'}
+            return JsonResponse(response_data, status=405)
 
 
 def servicios(request):
