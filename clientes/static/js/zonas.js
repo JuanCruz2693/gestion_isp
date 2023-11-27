@@ -58,7 +58,7 @@ const zonas = async () => {
                 <td>${zona.id}</td>
                 <td>${zona.nombre}</td>
                 <!-- Agrega aquí otros campos necesarios -->
-                <td>
+                <td class="text text-center">
                 <button class='btn btn-outline-info btnEditarZona' data-id="${zona.id}" data-nombre="${zona.nombre}"><i class='bx bx-edit'></i></button>
                     <button class='btn btn-outline-danger btnEliminar' data-id="${zona.id}"><i class='bx bx-trash'></i></button>
                 </td>

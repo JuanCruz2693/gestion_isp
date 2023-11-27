@@ -7,7 +7,7 @@
 {% endblock %}
 {% block content %}
 
-<div class="container p-5">
+<div class="container p-5 bg-container">
     <div class="row">
         <div class="col-md-4">
             <div class="cards">
@@ -47,7 +47,7 @@
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4 class="titulo-card">Clientes al dia</h4>
                     <div class="circle-container">
-                        <div class="circle" style="transform: rotate('{{clientes}}'turn);">
+                        <div class="circle">
                             <span class="percentage">{{alDia}}</span>
                         </div>
                     </div>
@@ -58,9 +58,16 @@
             </div>
         </div>
     </div>
-    <div id="map"></div>
 </div>
-
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div class="cards-map">
+                <div id="map"></div>
+            </div>
+        </div>
+    </div>
+</div>
 <!-- Mapa Leaflet -->
 
 

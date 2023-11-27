@@ -23,7 +23,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:8000/clientes/",
+            url: "http://127.0.0.1:8000/registro/",
             data: $(this).serialize(),
             success: function (response) {
                 Swal.fire(
@@ -33,6 +33,13 @@ $(document).ready(function () {
                 )
                 $("#modalCRUD").modal("hide")
                 initDataTable()
+            },
+            error: function (error) {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "Algo salio mal",
+                });
             }
         })
     })
@@ -478,6 +485,7 @@ $(document).on("click", "#btnInfoPagos", function () {
             // Ocultar el modal de información y mostrar el modal de historial de pagos
             $("#modal-info").modal("hide");
             $(".modal-title").text("Pagos realizados");
+            $("#modalHistorialPagos .modal-header").css("background-color", "blue");
             $("#modalHistorialPagos").modal("show");
         })
         .catch(error => console.error(error));

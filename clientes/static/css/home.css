@@ -1,7 +1,9 @@
-/* .card-hover:hover {
-    background-color: #559be2 !important;
-    transition: background-color 0.3s ease !important;
-} */
+.bg-container {
+    background-color: #f5f1f1 !important;
+    /* Cambia el color de fondo según tus preferencias */
+    /* Puedes agregar más estilos si es necesario */
+}
+
 .circle-container {
     display: flex;
     align-items: center;
@@ -29,14 +31,29 @@
 
 @keyframes progress-animation {
     to {
-        transform: rotate(1turn);
+        transform: rotate(0);
     }
 }
 
+.cards-map {
+    background: #ccc;
+    margin-top: 20px;
+    /* Ajusta el margen superior según sea necesario */
+    padding: 20px;
+    /* Añade un relleno para mayor espacio alrededor del mapa */
+    border: 1px solid var(--primary-color);
+    /* Añade un borde para separar el mapa del resto de la página */
+    border-radius: 8px;
+    /* Ajusta la esquina redondeada según sea necesario */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    /* Agrega una sombra suave */
+}
+
 #map {
-    height: 300px;
-    width: 800px;
-    margin: 0 auto; /* Esto centrará el mapa horizontalmente */
-    margin-bottom: 50px;
-    display: block; /* Esto asegura que ocupe el ancho especificado y no se extienda más allá */
+    height: 400px;
+    /* Ajusta la altura según tus necesidades */
+    width: 100%;
+    /* Haz que el mapa ocupe el 100% del ancho del contenedor */
+    border-radius: 8px;
+    /* Ajusta la esquina redondeada según sea necesario */
 }

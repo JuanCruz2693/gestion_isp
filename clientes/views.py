@@ -41,17 +41,24 @@ def logout_view(request):
 @login_required(login_url="login")
 def home(request):
     clientes = Cliente.objects.count()
-    clientes_deudas = ClienteDeuda.objects.filter(pagado=False).values('cliente').distinct().count()
-    clientes_al_dia = ClienteDeuda.objects.filter(pagado=True).values('cliente').distinct().count()
-    return render(request, "home.html", {"clientes": clientes, 'deudores': clientes_deudas, 'alDia': clientes_al_dia})
+    clientes_deudas = (
+        ClienteDeuda.objects.filter(pagado=False).values("cliente").distinct().count()
+    )
+    clientes_al_dia = clientes - clientes_deudas
+    return render(
+        request,
+        "home.html",
+        {"clientes": clientes, "deudores": clientes_deudas, "alDia": clientes_al_dia},
+    )
 
-#Esta Funcion carga el total de clientes para enviarlos al Template
+
+# Esta Funcion carga el total de clientes para enviarlos al Template
 def cargar_clientes(request):
     clientes = Cliente.objects.all()
     data = []
     for cliente in clientes:
         deudas_data = []
-        for cd in cliente.clientedeuda_set.all():
+        for cd in cliente.clientedeuda_set.all(): # type: ignore
             deuda_info = {
                 "mes_deuda": cd.deuda.mes_deuda,
                 "año_deuda": cd.deuda.año_deuda,
@@ -59,11 +66,11 @@ def cargar_clientes(request):
                 "monto_pagado": cd.monto_pagado,
                 "pagado": cd.pagado,
                 "monto": cd.monto,
-                }
+            }
             deudas_data.append(deuda_info)
-
+    
         cliente_data = {
-            "id": cliente.id,
+            "id": cliente.id, # type: ignore
             "dni": cliente.dni,
             "apellido": cliente.apellido,
             "nombre": cliente.nombre,
@@ -83,9 +90,10 @@ def cargar_clientes(request):
 
     return JsonResponse({"clientes": data})
 
-#Esta funcion registra los clientes y persiste los datos
+
+# Esta funcion registra los clientes y persiste los datos
 @login_required(login_url="login")
-def registrar(request):
+def renderizar(request):
     form_deuda = DeudaForm(request.POST or None)
     formulario = ClienteForm(request.POST or None)
     servicios = Servicio.objects.all()
@@ -104,7 +112,18 @@ def registrar(request):
     }
     return render(request, "Clientes.html", contexto)
 
-#Editar clientes
+
+def registrar(request):
+    formulario = ClienteForm(request.POST or None)
+    if formulario.is_valid():
+        formulario.save()
+        print("todo esta bien")
+        return JsonResponse({"success": "Cliente guardado con exito"}, status=200)
+    else:
+        return JsonResponse({"error": "formulario incorrecto"}, status=405)
+
+
+# Editar clientes
 def editar(request):
     id = request.POST.get("form-edicion-id")
     cliente = Cliente.objects.get(id=id)
@@ -149,7 +168,7 @@ def generar_deuda(request):
         deuda = Deuda(mes_deuda=mes, año_deuda=año)
         deuda.save()
         for cliente in clientes:
-            if cliente.estado == 'A':
+            if cliente.estado == "A":
                 cliente.deudas.add(
                     deuda, through_defaults={"monto": cliente.servicio.monto}
                 )
@@ -162,13 +181,13 @@ def generar_deuda(request):
 
 @csrf_exempt
 def registrar_pago(request):
-    if request.method == 'POST':
-        mes = request.POST.get('mes')
-        año = request.POST.get('año')
-        pago = Decimal(request.POST.get('monto'))
-        cliente_id = request.POST.get('cliente_id')
-        cliente = Cliente.objects.get(id = cliente_id)
-        deuda = cliente.clientedeuda_set.get(deuda__mes_deuda=mes, deuda__año_deuda=año)
+    if request.method == "POST":
+        mes = request.POST.get("mes")
+        año = request.POST.get("año")
+        pago = Decimal(request.POST.get("monto"))
+        cliente_id = request.POST.get("cliente_id")
+        cliente = Cliente.objects.get(id=cliente_id)
+        deuda = cliente.clientedeuda_set.get(deuda__mes_deuda=mes, deuda__año_deuda=año) # type: ignore
         if pago <= deuda.monto:
             if deuda.monto_pagado is not None:
                 deuda.monto_pagado = deuda.monto_pagado + pago
@@ -179,10 +198,10 @@ def registrar_pago(request):
                 deuda.fecha_pago = datetime.datetime.now()
             deuda.monto = deuda.monto - pago
             deuda.save()
-            response_data = {'message': 'Pago realizado con exito'}
-            return JsonResponse(response_data,status=200)
+            response_data = {"message": "Pago realizado con exito"}
+            return JsonResponse(response_data, status=200)
         else:
-            response_data = {'error': 'El monto ingresado es mayor al adeudado'}
+            response_data = {"error": "El monto ingresado es mayor al adeudado"}
             return JsonResponse(response_data, status=405)
 
 
@@ -229,6 +248,7 @@ def cargar_servicios(request):
 
     return JsonResponse({"servicios": data})
 
+
 @csrf_exempt
 def eliminar_servicio(request, servicio_id):
     servicio = get_object_or_404(Servicio, idServicio=servicio_id)
@@ -237,7 +257,10 @@ def eliminar_servicio(request, servicio_id):
         servicio.delete()
         return JsonResponse({"success": "Servicio eliminado correctamente."})
     except Exception as e:
-        return JsonResponse({"error": f"Error al eliminar el servicio: {str(e)}"}, status=500)
+        return JsonResponse(
+            {"error": f"Error al eliminar el servicio: {str(e)}"}, status=500
+        )
+
 
 @csrf_exempt
 def editar_servicio(request, servicio_id):
@@ -323,4 +346,3 @@ def cargar_zona(request, zona_id):
     }
 
     return JsonResponse(zona_data)
-

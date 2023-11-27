@@ -6,7 +6,7 @@
 <span class="text nav-text p-1">Clientes</span>
 {% endblock %}
 {% block content %}
-<div class="container my-3">
+<div class="container p-5 bg-container container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <!--boton nuevo-->
@@ -46,23 +46,21 @@
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <div class="table-responsive">
-                <div class="card">
-                    <div class="card-body">
-                        <table id="Clientes" class="display" style="width:100%">
-                            <thead>
-                                <tr>
-                                    <th>Cod.Cliente</th>
-                                    <th>DNI</th>
-                                    <th>Apellido</th>
-                                    <th>Nombre</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tablaClientes">
-                            </tbody>
-                        </table>
-                    </div>
+            <div class="card">
+                <div class="card-body table-responsive">
+                    <table id="Clientes" class="table table-bordered table-striped" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Cod.Cliente</th>
+                                <th>DNI</th>
+                                <th>Apellido</th>
+                                <th>Nombre</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tablaClientes">
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -256,8 +254,6 @@
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
     <!-- DataTables JS -->
-    <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
-    <script src="https://cdn.datatables.net/1.13.6/js/dataTables.bootstrap5.min.js"></script>
 
     <!--JavaScript propio-->
     <script src="{% static 'js/Clientes.js' %}"></script>
