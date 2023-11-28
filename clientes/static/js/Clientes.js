@@ -23,7 +23,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:8000/registro/",
+            url: "/registro/",
             data: $(this).serialize(),
             success: function (response) {
                 Swal.fire(
@@ -52,7 +52,7 @@ $(document).on("click", ".btnInfo", function () {
     var fila = $(this).closest("tr");
     idCliente = fila.find('td:eq(0)').text(); // Obtener el ID del cliente
 
-    fetch('http://127.0.0.1:8000/cargar_clientes/')
+    fetch('/cargar_clientes/')
         .then(response => response.json())
         .then(data => {
             var cliente = data.clientes.find(c => c.id === parseInt(idCliente)); // Buscar el cliente por su ID
@@ -154,7 +154,7 @@ $(document).on("click", "#btnEditar", function () {
 
             $.ajax({
                 type: "POST",
-                url: "http://127.0.0.1:8000/editar/",
+                url: "/editar/",
                 data: $(this).serialize(),
                 success: function (response) {
                     Swal.fire(
@@ -190,7 +190,7 @@ $(document).on("click", "#btnBaja", async function () {
             if (result.isConfirmed) {
                 const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
                 console.log(csrfToken)
-                const response = fetch(`http://127.0.0.1:8000/baja/${id}/`, {
+                const response = fetch(`/baja/${id}/`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -216,7 +216,7 @@ $(document).on("click", "#btnAlta", async function () {
     try {
         const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
         console.log(csrfToken)
-        const response = await fetch(`http://127.0.0.1:8000/alta/${id}/`, {
+        const response = await fetch(`/alta/${id}/`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json",
@@ -253,7 +253,7 @@ $(document).on("click", "#btnSuspender", async function () {
             if (result.isConfirmed) {
                 const csrfToken = $("meta[name=csrf-token]").attr("value");  // Obtener el token CSRF
                 console.log(csrfToken)
-                const response = fetch(`http://127.0.0.1:8000/suspender/${id}/`, {
+                const response = fetch(`/suspender/${id}/`, {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json",
@@ -323,7 +323,7 @@ const initDataTable = async () => {
 
 const clientes = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/cargar_clientes/');
+        const response = await fetch('/cargar_clientes/');
         const data = await response.json()
         console.log(data)
         let contenido = ''
@@ -355,7 +355,7 @@ $(document).ready(function () {
         var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
         $.ajax({
             type: 'POST',
-            url: 'http://127.0.0.1:8000/generar_deuda/',
+            url: '/generar_deuda/',
             data: {
                 'mes_deuda': mesDeuda,
                 'año_deuda': añoDeuda,
@@ -392,7 +392,7 @@ $(document).on("click", ".btnRegistrarPago", function () {
     var apellido = fila.find('td:eq(3)').text();
 
     // Realiza la solicitud para cargar la información del cliente
-    fetch('http://127.0.0.1:8000/cargar_clientes/')
+    fetch('/cargar_clientes/')
         .then(response => response.json())
         .then(data => {
             // Encuentra el cliente en los datos cargados
@@ -430,7 +430,7 @@ $(document).on("click", ".btnRegistrarPago", function () {
                 // Realiza la solicitud AJAX
                 $.ajax({
                     type: "POST",
-                    url: "http://127.0.0.1:8000/pagar_deuda/",
+                    url: "/pagar_deuda/",
                     data: formData,
                     success: function (response) {
                         console.log(response);
@@ -458,7 +458,7 @@ $(document).on("click", ".btnRegistrarPago", function () {
 $(document).on("click", "#btnInfoPagos", function () {
     idCliente = $("#id-i").text().trim();
 
-    fetch('http://127.0.0.1:8000/cargar_clientes/')
+    fetch('/cargar_clientes/')
         .then(response => response.json())
         .then(data => {
             var cliente = data.clientes.find(c => c.id === parseInt(idCliente));

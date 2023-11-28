@@ -68,7 +68,7 @@ $(document).ready(function () {
         event.preventDefault();
         $.ajax({
             type: "POST",
-            url: "http://127.0.0.1:8000/servicios/",
+            url: "/servicios/",
             data: $(this).serialize(),
             success: function (response) {
                 Swal.fire(
@@ -88,7 +88,7 @@ $(document).ready(function () {
 
 const cargarYMostrarServicios = async () => {
     try {
-        const response = await fetch('http://127.0.0.1:8000/cargar_servicios/');
+        const response = await fetch('/cargar_servicios/');
         const data = await response.json();
 
         if (data && data.servicios) {
@@ -143,7 +143,7 @@ const cargarYMostrarServicios = async () => {
 
 const eliminarServicio = async (servicioId) => {
     try {
-        const url = `http://127.0.0.1:8000/eliminar_servicio/${servicioId}/`;
+        const url = `/eliminar_servicio/${servicioId}/`;
         const csrfToken = $('[name=csrfmiddlewaretoken]').val();
 
         const response = await fetch(url, {
@@ -206,7 +206,7 @@ $(document).ready(function () {
         if (servicioId) {
             $.ajax({
                 type: "POST",
-                url: "http://127.0.0.1:8000/editar_servicio/" + servicioId + "/",
+                url: "/editar_servicio/" + servicioId + "/",
                 data: $(this).serialize(),
                 success: function (response) {
                     console.log(response);
