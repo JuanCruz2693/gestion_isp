@@ -346,3 +346,110 @@ def cargar_zona(request, zona_id):
     }
 
     return JsonResponse(zona_data)
+
+
+def clientes_deuda_render(request):
+    form_deuda = DeudaForm(request.POST or None)
+    formulario = ClienteForm(request.POST or None)
+    servicios = Servicio.objects.all()
+    zonas = Zona.objects.all()
+    contexto = {
+        "formulario": formulario,
+        "servicios": servicios,
+        "zonas": zonas,
+        "form_deuda": form_deuda,}
+    return render(request, 'clientedeuda.html', contexto )
+
+
+def clientes_deudas(request):
+    clientes = Cliente.objects.all()
+    data = []
+    for cliente in clientes:
+        deudas_data = []
+        for cd in cliente.clientedeuda_set.filter(pagado=False):
+            deuda_info = {
+                "mes_deuda": cd.deuda.mes_deuda,
+                "año_deuda": cd.deuda.año_deuda,
+                "fecha_pago": cd.fecha_pago,
+                "monto_pagado": cd.monto_pagado,
+                "pagado": cd.pagado,
+                "monto": cd.monto,
+            }
+            deudas_data.append(deuda_info)
+        if deudas_data:
+            cliente_data = {
+                "id": cliente.id, # type: ignore
+                "dni": cliente.dni,
+                "apellido": cliente.apellido,
+                "nombre": cliente.nombre,
+                "direccion": cliente.direccion,
+                "telefono": cliente.telefono,
+                "estado": cliente.estado,
+                "router": cliente.router,
+                "n_serie": cliente.n_serie,
+                "observaciones": cliente.observaciones,
+                "fecha_alta": cliente.fecha_alta,
+                "servicio__tipo_plan": cliente.servicio.tipo_plan,
+                "servicio__monto": cliente.servicio.monto,
+                "zona__nombre": cliente.zona.nombre,
+                "deudas": deudas_data,
+            }
+            data.append(cliente_data)
+
+    return JsonResponse({"clientes": data})
+
+def clientes_aldia_render(request):
+    form_deuda = DeudaForm(request.POST or None)
+    formulario = ClienteForm(request.POST or None)
+    servicios = Servicio.objects.all()
+    zonas = Zona.objects.all()
+    contexto = {
+        "formulario": formulario,
+        "servicios": servicios,
+        "zonas": zonas,
+        "form_deuda": form_deuda,}
+    return render(request, 'clienteAlDia.html', contexto )
+
+
+def clientes_aldia(request):
+    clientes = Cliente.objects.all()
+    data = []
+
+    for cliente in clientes:
+        todas_pagadas = cliente.clientedeuda_set.exists() and \
+                        cliente.clientedeuda_set.filter(pagado=True).count() == cliente.clientedeuda_set.count()
+
+        if todas_pagadas:
+            deudas_data = [
+                {
+                    "mes_deuda": cd.deuda.mes_deuda,
+                    "año_deuda": cd.deuda.año_deuda,
+                    "fecha_pago": cd.fecha_pago,
+                    "monto_pagado": cd.monto_pagado,
+                    "pagado": cd.pagado,
+                    "monto": cd.monto,
+                }
+                for cd in cliente.clientedeuda_set.filter(pagado=True)
+            ]
+
+            cliente_data = {
+                "id": cliente.id,  # type: ignore
+                "dni": cliente.dni,
+                "apellido": cliente.apellido,
+                "nombre": cliente.nombre,
+                "direccion": cliente.direccion,
+                "telefono": cliente.telefono,
+                "estado": cliente.estado,
+                "router": cliente.router,
+                "n_serie": cliente.n_serie,
+                "observaciones": cliente.observaciones,
+                "fecha_alta": cliente.fecha_alta,
+                "servicio__tipo_plan": cliente.servicio.tipo_plan,
+                "servicio__monto": cliente.servicio.monto,
+                "zona__nombre": cliente.zona.nombre,
+                "deudas": deudas_data,
+            }
+
+            data.append(cliente_data)
+
+    return JsonResponse({"clientes": data})

@@ -24,4 +24,9 @@ urlpatterns = [
     path('editar_zona/', views.editar_zona, name='editar_zona'),
     path('cargar_zona/<int:zona_id>/', views.cargar_zona, name='cargar_zona'),
     path('eliminar_zona/<int:zona_id>/', views.eliminar_zona, name='eliminar_zona'),
+    path('clientescondeudas/', views.clientes_deuda_render, name='cliente_deudas'),
+    path('clientes_deudores/', views.clientes_deudas, name='deudas'),
+    path('clientedia/', views.clientes_aldia_render, name='cliente_dia'),
+    path('clientes_aldia/', views.clientes_aldia, name='pagados'),
+    
 ]
