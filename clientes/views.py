@@ -169,6 +169,10 @@ def generar_deuda(request):
         deuda.save()
         for cliente in clientes:
             if cliente.estado == "A":
+                deuda_anterior = cliente.clientedeuda_set.filter(pagado=False).first()
+                if deuda_anterior:
+                    deuda_anterior.monto += 100
+                    deuda_anterior.save()
                 cliente.deudas.add(
                     deuda, through_defaults={"monto": cliente.servicio.monto}
                 )
@@ -204,7 +208,7 @@ def registrar_pago(request):
             response_data = {"error": "El monto ingresado es mayor al adeudado"}
             return JsonResponse(response_data, status=405)
 
-
+@login_required(login_url="login")
 def servicios(request):
     form_servicios = ServiciosForm()
     if request.method == "POST":
@@ -274,7 +278,7 @@ def editar_servicio(request, servicio_id):
     print(formulario.errors)
     return JsonResponse({"error": "Error al editar el servicio"})
 
-
+@login_required(login_url="login")
 def zonas(request):
     form_zonas = ZonasForm()
 
@@ -347,7 +351,7 @@ def cargar_zona(request, zona_id):
 
     return JsonResponse(zona_data)
 
-
+@login_required(login_url="login")
 def clientes_deuda_render(request):
     form_deuda = DeudaForm(request.POST or None)
     formulario = ClienteForm(request.POST or None)
@@ -398,6 +402,7 @@ def clientes_deudas(request):
 
     return JsonResponse({"clientes": data})
 
+@login_required(login_url="login")
 def clientes_aldia_render(request):
     form_deuda = DeudaForm(request.POST or None)
     formulario = ClienteForm(request.POST or None)

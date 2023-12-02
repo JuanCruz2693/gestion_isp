@@ -445,7 +445,7 @@ $(document).on("click", ".btnRegistrarPago", function () {
                         Swal.fire({
                             icon: "error",
                             title: "Oops...",
-                            text: "Algo salio mal",
+                            text: error.responseJSON.error,
                         });
                     }
                 });
