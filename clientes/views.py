@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm, ZonasForm
+from .forms import ClienteForm, DeudaForm, ServiciosForm, LoginForm, ZonasForm, TicketsForm
 from .models import Servicio, Zona, Cliente, Deuda, ClienteDeuda
 from django.http.response import JsonResponse
 from django.contrib.auth import authenticate, login, logout
@@ -458,3 +458,18 @@ def clientes_aldia(request):
             data.append(cliente_data)
 
     return JsonResponse({"clientes": data})
+
+def soporteTecnico(request):
+
+    return render(request, "soporteTecnico.html")
+
+def tickets(request):
+    if request.method == 'POST':
+        form = TicketsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('tickets')
+    else:
+        form = TicketsForm()
+
+    return render(request, "tickets.html", {'form': form})

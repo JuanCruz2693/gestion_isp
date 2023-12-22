@@ -388,65 +388,25 @@ body.dark .usuario .text {
 
 /* Estilos para la tabla */
 .usuario .container-fluid {
-    background-color: #f5f1f1 !important;
-    background: hsl(200, 17%, 86%);
+    background-color: var(--body-color) !important;
+    background: hsl(355, 17%, 86%);
     height: 100%;
 }
 
 /* Estilos de las tarjetas en la sección de usuario */
 .usuario .card {
-    background: #FFF;
+    background: var(--sidebar-color);
 }
 
-/* Estilos de la tabla de clientes */
-.usuario .card-body #Clientes #tablaClientes {
+.dark .usuario .card-body {
     background-color: var(--sidebar-color);
-    color: var(--text-color);
-    border-radius: 6px;
-    padding: 5px;
-    margin: 10px;
-}
-
-/* Estilos de las celdas de la tabla de clientes */
-#Clientes #tablaClientes th,
-#Clientes #tablaClientes td {
-    padding: 8px;
-    text-align: left;
-}
-
-/* Estilos de las celdas encabezado de la tabla de clientes */
-#Clientes #tablaClientes th {
-    background-color: var(--primary-color);
-    color: var(--sidebar-color);
-}
-
-/* Estilos de las filas impares de la tabla de clientes */
-#Clientes #tablaClientes tbody tr:nth-child(even) {
-    background-color: var(--primary-color-light);
-}
-
-/* Estilos oscuros para la tabla de clientes */
-body.dark #Clientes #tablaClientes {
-    background-color: #242526;
-    color: var(--text-color);
-}
-
-/* Estilos oscuros para las celdas encabezado de la tabla de clientes */
-body.dark #Clientes #tablaClientes th {
-    background-color: var(--primary-color);
-    color: var(--sidebar-color);
-}
-
-/* Estilos oscuros para las filas impares de la tabla de clientes */
-body.dark #Clientes #tablaClientes tbody tr:nth-child(even) {
-    background-color: var(--primary-color-light);
 }
 
 /* Estilos de las tarjetas en modo oscuro */
 .dark .usuario .card {
     background-color: var(--primary-color-light);
     color: var(--text-color);
-    border-color: #FFF;
+    border-color: var(--sidebar-color);
 }
 
 /* Estilos del contenedor principal en la sección de usuario */
@@ -461,19 +421,20 @@ body.dark #Clientes #tablaClientes tbody tr:nth-child(even) {
 
 /* Estilos de las tarjetas individuales */
 .cards {
-    background-color: #FFF;
+    background-color: var(--sidebar-color);
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     padding: 20px;
     margin: 20px;
     min-height: 200px;
     transition: var(--tran-03);
+    color: var(--text-color);
 }
 
 /* Estilos de texto no subrayado en las tarjetas */
 .cards .no-underline {
     text-decoration: none;
-    color: inherit;
+    color: var(--text-color);
 }
 
 .cards:hover {

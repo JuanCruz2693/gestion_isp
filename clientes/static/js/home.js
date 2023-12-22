@@ -1,5 +1,3 @@
-
-// Supongamos que tienes una lista de zonas con latitud y longitud
 const zonas = [];
 
 function cargar_zonas() {
@@ -29,6 +27,5 @@ function mostrarZonasEnMapa() {
     });
 }
 
-// Llama a la función para cargar las zonas al inicio
 cargar_zonas();
 

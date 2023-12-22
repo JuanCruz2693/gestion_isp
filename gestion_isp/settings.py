@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-3lxyf@$%3f#&r)l3&mvxm^s9f#@1cu+zjv9^lq3olroji*hsin
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['conexgod.com.ar','[2800:6c0:5::830]']
+ALLOWED_HOSTS = ['conexgod.com.ar','[2800:6c0:5::830]', '127.0.0.1']
 
 
 # Application definition
@@ -77,9 +77,9 @@ WSGI_APPLICATION = 'gestion_isp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'gestion2',
-        'USER': 'juancruz',
-        'PASSWORD': '261093',
+        'NAME': 'conexgod',
+        'USER': 'root',
+        'PASSWORD': '123456',
         'HOST': 'localhost',
         'PORT': '3306'
     }

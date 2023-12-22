@@ -28,5 +28,6 @@ urlpatterns = [
     path('clientes_deudores/', views.clientes_deudas, name='deudas'),
     path('clientedia/', views.clientes_aldia_render, name='cliente_dia'),
     path('clientes_aldia/', views.clientes_aldia, name='pagados'),
-    
+    path('soporteTecnico/', views.soporteTecnico, name='soporteTecnico'),
+    path('tickets/', views.tickets, name='tickets'),
 ]

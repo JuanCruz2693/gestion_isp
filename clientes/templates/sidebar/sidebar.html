@@ -10,6 +10,8 @@
     </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="shortcut icon" href="{% static 'css/Imagen/Logo.png' %}" type="image/x-icon">
+
     <!-- ======== CSS ======== -->
     <link rel="stylesheet" href="{% static 'css/side.css' %}">
 
@@ -162,7 +164,7 @@
                     </li>
 
                     <li class="nav-link">
-                        <a href="#">
+                        <a href="{% url 'soporteTecnico' %}">
                             <i class='bx bx-support icon'></i>
                             <span class="text nav-text">Soporte Tecnico</span>
                         </a>
